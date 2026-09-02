@@ -198,16 +198,6 @@ p {
   z-index: 10000;
 }
 
-/* Section Counter */
-.section-counter {
-  font-family: monospace;
-  font-size: 12px;
-  color: var(--text-dim);
-  margin-bottom: 40px;
-  letter-spacing: 0.1em;
-}
-.bg-light .section-counter { color: var(--ink-mute); }
-
 /* Buttons - Shader Style */
 .btn-primary {
   position: relative;
