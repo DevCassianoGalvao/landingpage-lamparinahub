@@ -60,12 +60,6 @@ body {
   overflow-x: hidden;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  transition: background-color 0.6s ease, color 0.6s ease;
-}
-
-body.theme-light {
-  background-color: var(--paper);
-  color: var(--ink);
 }
 
 img, video, svg {
@@ -126,7 +120,7 @@ p {
   color: var(--text-mute);
   margin-bottom: 40px;
 }
-.theme-light .subtitle { color: var(--ink-mute); }
+.bg-light .subtitle { color: var(--ink-mute); }
 
 .kicker-pill, .card-kicker {
   font-size: 12px;
@@ -168,8 +162,9 @@ p {
   justify-content: center;
 }
 
-.bg-dark { background-color: transparent; color: var(--text); }
-.bg-light { background-color: transparent; color: var(--ink); }
+/* Fixed section themes — no scroll-driven crossfade */
+.bg-dark { background-color: var(--bg); color: var(--text); }
+.bg-light { background-color: var(--paper); color: var(--ink); }
 
 /* Backgrounds Removed per user request */
 .grid-bg, .noise-bg {
@@ -268,7 +263,7 @@ p {
   color: var(--text-mute);
   margin-bottom: 12px;
 }
-.theme-light .btn-prompt { color: var(--ink-mute); }
+.bg-light .btn-prompt { color: var(--ink-mute); }
 
 /* Kicker Pill */
 .kicker-pill {

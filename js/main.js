@@ -69,27 +69,7 @@ document.addEventListener("DOMContentLoaded", () => {
     if(c2) c2.style.display = "none";
   }
 
-  // 1. SCROLL THEME TRANSITIONS
-  const sections = document.querySelectorAll(".section, .hero");
-  sections.forEach((section) => {
-    ScrollTrigger.create({
-      trigger: section,
-      start: "top 50%",
-      end: "bottom 50%",
-      onEnter: () => updateTheme(section),
-      onEnterBack: () => updateTheme(section),
-    });
-  });
-
-  function updateTheme(section) {
-    if (section.classList.contains("bg-light")) {
-      document.body.classList.remove("theme-dark");
-      document.body.classList.add("theme-light");
-    } else {
-      document.body.classList.remove("theme-light");
-      document.body.classList.add("theme-dark");
-    }
-  }
+  // 1. (removed) scroll-driven theme crossfade — section themes are now fixed via CSS
 
   // 2. ENTRANCE ANIMATIONS FOR CARDS
   if (!prefersReducedMotion) {
