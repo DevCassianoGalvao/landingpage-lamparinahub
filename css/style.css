@@ -669,21 +669,6 @@ p {
   height: 100%;
   border: 0;
 }
-.truth-vsl-tag {
-  position: absolute;
-  top: 12px;
-  left: 50%;
-  transform: translateX(-50%);
-  background: rgba(0, 0, 0, 0.6);
-  color: #fff;
-  font-size: 11px;
-  letter-spacing: 0.08em;
-  padding: 4px 12px;
-  border-radius: 999px;
-  pointer-events: none;
-  z-index: 2;
-}
-
 /* VSL */
 .section-vsl { padding-top: 0; }
 .vsl-container {
