@@ -556,30 +556,34 @@ p {
   position: relative;
   isolation: isolate; /* contain the glow layer, keep the dots texture on top */
 }
-/* diagonal orange glows — above the content, below the dots texture */
+/* diagonal orange glows — above the content, below the dots texture.
+   Kept fully inside the viewport so overflow-x:hidden never clips them into a hard edge. */
 .hero::before,
 .hero::after {
   content: "";
   position: absolute;
   border-radius: 50%;
-  background: radial-gradient(circle at center, rgba(255, 90, 0, 0.45), rgba(255, 90, 0, 0) 70%);
+  background: radial-gradient(circle at center,
+    rgba(255, 90, 0, 0.5) 0%,
+    rgba(255, 90, 0, 0.12) 42%,
+    rgba(255, 90, 0, 0) 70%);
   pointer-events: none;
   z-index: 50;
   animation: heroGlow 8s ease-in-out infinite;
 }
 /* right side — larger, glowing near the founders */
 .hero::before {
-  width: 580px;
-  height: 580px;
-  top: 22%;
-  right: -150px;
+  width: 560px;
+  height: 560px;
+  top: 16%;
+  right: 1%;
 }
-/* lower-left — sits over the content, well inside the viewport so it never looks clipped */
+/* lower-left — over the content */
 .hero::after {
   width: 500px;
   height: 500px;
-  bottom: -90px;
-  left: -40px;
+  bottom: -14%;
+  left: 1%;
   animation-delay: -4s;
 }
 @keyframes heroGlow {
@@ -1363,14 +1367,14 @@ p {
     margin-top: 16px;
   }
 
-  /* diagonal glows scaled for small screens — raised so they don't wash over the founders' lower body */
+  /* diagonal glows scaled for small screens — fully on-screen, raised off the founders' lower body */
   .hero::before {
-    width: 340px; height: 340px;
-    top: auto; bottom: 30%; right: -110px;
+    width: 320px; height: 320px;
+    top: auto; bottom: 30%; right: 0;
   }
   .hero::after {
     width: 240px; height: 240px;
-    bottom: auto; top: 3%; left: -80px;
+    bottom: auto; top: 2%; left: 0;
   }
 
   .hero-left h1,
