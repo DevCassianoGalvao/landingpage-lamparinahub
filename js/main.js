@@ -214,12 +214,12 @@ document.addEventListener("DOMContentLoaded", () => {
         let data = {};
         try { data = await res.json(); } catch (_) {}
         if (res.ok && data.ok) {
-          raioForm.reset();
-          raioForm.querySelectorAll(".input-group.has-value").forEach(g => g.classList.remove("has-value"));
           if (formStatus) {
-            formStatus.textContent = "Recebemos seus dados. Em até 24h você recebe seu Raio-X no WhatsApp.";
+            formStatus.textContent = "Enviado! Redirecionando...";
             formStatus.classList.add("is-ok");
           }
+          window.location.href = "obrigado.html";
+          return;
         } else {
           throw new Error((data && data.error) || "Erro ao enviar.");
         }

@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Obrigado · Lamparina Hub</title>
+  <meta name="robots" content="noindex">
+  <link rel="icon" type="image/png" href="assets/favicon.png">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Host+Grotesk:wght@400;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="css/style.css">
+
+  <style>
+    .ty {
+      position: relative;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 80px 24px;
+      overflow: hidden;
+    }
+    /* pulsing orange glow behind the illustration */
+    .ty::before {
+      content: "";
+      position: absolute;
+      top: 38%;
+      left: 50%;
+      width: 520px;
+      height: 520px;
+      max-width: 90vw;
+      transform: translate(-50%, -50%);
+      border-radius: 50%;
+      background: radial-gradient(circle at center,
+        rgba(255, 90, 0, 0.28) 0%,
+        rgba(255, 90, 0, 0.1) 42%,
+        rgba(255, 90, 0, 0) 70%);
+      pointer-events: none;
+      animation: tyGlow 7s ease-in-out infinite;
+    }
+    @keyframes tyGlow {
+      0%, 100% { opacity: 0.5; transform: translate(-50%, -50%) scale(0.9); }
+      50% { opacity: 1; transform: translate(-50%, -50%) scale(1.06); }
+    }
+
+    .ty-inner {
+      position: relative;
+      z-index: 2;
+      max-width: 560px;
+      width: 100%;
+    }
+    .ty-logo {
+      height: 44px;
+      width: auto;
+      margin: 0 auto 40px;
+      display: block;
+    }
+
+    /* illustration */
+    .ty-art {
+      width: 168px;
+      height: 168px;
+      margin: 0 auto 32px;
+      display: block;
+    }
+    .ty-art .ring {
+      fill: none;
+      stroke: rgba(255, 90, 0, 0.35);
+      stroke-width: 2;
+      stroke-dasharray: 5 7;
+      transform-origin: 90px 90px;
+      animation: tySpin 22s linear infinite;
+    }
+    .ty-art .ring-2 {
+      stroke: rgba(255, 138, 0, 0.25);
+      animation-duration: 32s;
+      animation-direction: reverse;
+    }
+    @keyframes tySpin { to { transform: rotate(360deg); } }
+    .ty-art .disc { fill: url(#tygrad); }
+    .ty-art .check {
+      fill: none;
+      stroke: #fff;
+      stroke-width: 8;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      stroke-dasharray: 60;
+      stroke-dashoffset: 60;
+      animation: tyDraw 0.7s ease 0.25s forwards;
+    }
+    @keyframes tyDraw { to { stroke-dashoffset: 0; } }
+    .ty-art .spark {
+      fill: var(--orange-hi);
+      opacity: 0;
+      animation: tySpark 2.6s ease-in-out infinite;
+    }
+    .ty-art .spark-2 { animation-delay: 0.8s; }
+    .ty-art .spark-3 { animation-delay: 1.6s; }
+    @keyframes tySpark {
+      0%, 100% { opacity: 0; transform: scale(0.6); }
+      40% { opacity: 1; transform: scale(1); }
+    }
+
+    .ty-inner h1 {
+      font-size: 40px;
+      margin-bottom: 20px;
+    }
+    .ty-inner h1 .highlight { color: var(--orange); }
+    .ty-text {
+      font-size: 18px;
+      line-height: 1.6;
+      color: var(--text-mute);
+      margin: 0 auto 40px;
+      max-width: 460px;
+    }
+
+    @media (max-width: 768px) {
+      .ty { padding: 64px 20px; }
+      .ty-inner h1 { font-size: 30px; }
+      .ty-text { font-size: 16px; }
+      .ty-art { width: 140px; height: 140px; }
+      .ty::before { width: 380px; height: 380px; top: 34%; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .ty::before, .ty-art .ring, .ty-art .spark { animation: none; }
+      .ty-art .check { stroke-dashoffset: 0; animation: none; }
+    }
+  </style>
+</head>
+<body class="theme-dark">
+
+  <main class="ty">
+    <div class="ty-inner">
+      <img src="assets/logo lamparina.png" alt="Lamparina Hub" class="ty-logo">
+
+      <svg class="ty-art" viewBox="0 0 180 180" role="img" aria-label="Aplicação recebida com sucesso">
+        <defs>
+          <linearGradient id="tygrad" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0" stop-color="#FF8800"/>
+            <stop offset="1" stop-color="#FF5A00"/>
+          </linearGradient>
+        </defs>
+        <circle class="ring" cx="90" cy="90" r="84"/>
+        <circle class="ring ring-2" cx="90" cy="90" r="68"/>
+        <circle class="disc" cx="90" cy="90" r="52"/>
+        <path class="check" d="M68 92 L84 108 L114 74"/>
+        <path class="spark spark-1" d="M150 46 l4 10 10 4 -10 4 -4 10 -4 -10 -10 -4 10 -4 z"/>
+        <path class="spark spark-2" d="M26 60 l3 7 7 3 -7 3 -3 7 -3 -7 -7 -3 7 -3 z"/>
+        <path class="spark spark-3" d="M40 140 l2.5 6 6 2.5 -6 2.5 -2.5 6 -2.5 -6 -6 -2.5 6 -2.5 z"/>
+      </svg>
+
+      <h1><span class="highlight">Sucesso!</span> Recebemos sua aplicação para a Sessão Estratégica.</h1>
+      <p class="ty-text">Nossa equipe analisará seus dados e entrará em contato via WhatsApp em breve ou ligação.</p>
+
+      <a href="index.html" class="btn-primary magnetic">
+        <span class="btn-text">Voltar ao início</span>
+        <span class="btn-glow"></span>
+      </a>
+    </div>
+  </main>
+
+</body>
+</html>
