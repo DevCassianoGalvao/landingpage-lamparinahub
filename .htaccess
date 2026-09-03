@@ -1,0 +1,17 @@
+# Repo servido direto de /raiox — bloqueia o que não deve ir pra web
+RedirectMatch 404 /\.git(/|$)
+
+<FilesMatch "^\.">
+  Require all denied
+</FilesMatch>
+
+<FilesMatch "\.(md|yml|yaml)$">
+  Require all denied
+</FilesMatch>
+
+<Files "config.php">
+  Require all denied
+</Files>
+<Files "config.example.php">
+  Require all denied
+</Files>
