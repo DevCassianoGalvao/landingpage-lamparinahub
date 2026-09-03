@@ -36,6 +36,8 @@
 html {
   scroll-behavior: smooth;
   scrollbar-color: var(--orange) var(--bg);
+  overflow-x: hidden;
+  max-width: 100%;
 }
 
 html::before {
@@ -205,6 +207,7 @@ p {
   display: inline-flex;
   align-items: center;
   justify-content: center;
+  white-space: nowrap;
   padding: 20px 48px;
   background: linear-gradient(
     135deg,
@@ -720,6 +723,7 @@ p {
   flex-shrink: 0;
   transition: background 0.3s, color 0.3s, border-color 0.3s;
 }
+.pain-icon svg { width: 12px; height: 12px; display: block; }
 .pain-item:hover {
   background: rgba(255, 90, 0, 0.04);
 }
@@ -1341,29 +1345,29 @@ p {
   .hero-left .subtitle,
   .btn-prompt { text-align: center; }
 
-  /* keep CTA + sound player on one line */
+  /* CTA + sound player: each stays on one line; player wraps below if it doesn't fit */
   .hero-cta-row {
-    flex-wrap: nowrap;
-    gap: 8px;
+    flex-wrap: wrap;
+    gap: 12px;
     justify-content: center;
-    width: 100%;
+    max-width: 100%;
   }
   .hero-cta-row .btn-primary {
-    padding: 14px 20px;
-    font-size: 14px;
-    flex-shrink: 0;
+    padding: 15px 26px;
+    font-size: 15px;
   }
   .sound-toggle {
     min-height: 0;
-    padding: 6px 12px 6px 6px;
-    gap: 7px;
+    padding: 7px 14px 7px 7px;
+    gap: 8px;
     min-width: 0;
+    max-width: 100%;
   }
-  .sound-play { width: 26px; height: 26px; }
+  .sound-play { width: 28px; height: 28px; }
   .sound-play svg { width: 12px; height: 12px; }
   .sound-wave { gap: 2px; height: 16px; }
   .sound-wave i:nth-child(n+6) { display: none; }
-  .sound-label { font-size: 11px; }
+  .sound-label { font-size: 12px; }
   @keyframes soundBar { 0%, 100% { height: 4px; } 50% { height: 16px; } }
 
   /* trust strip: stacked, one check per line, no dot separators */
@@ -1381,20 +1385,22 @@ p {
   .testimonial-video { max-width: 280px; }
 
   .section-team h2 { font-size: 30px; }
+  .section-team p { margin-bottom: 20px; }
   .team-row {
-    margin-top: 40px;
+    margin-top: 20px;
     flex-wrap: nowrap;
     justify-content: center;
   }
   .team-member {
-    width: 60px; height: 60px;
-    margin-left: -16px;
+    width: 46px; height: 46px;
+    margin-left: -13px;
+    border-width: 2px;
   }
   .team-member:first-child {
     margin-left: 0;
   }
   .team-member:hover { transform: scale(1.1) !important; }
-  .team-cta { margin-top: 52px; }
+  .team-cta { margin-top: 44px; }
 
   .footer-top { text-align: center; }
   .footer-logo { margin-left: 0; }
