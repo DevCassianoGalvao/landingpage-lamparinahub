@@ -1038,12 +1038,17 @@ p {
 .input-group label {
   position: absolute;
   left: 20px;
+  right: 20px;
   top: 50%;
   transform: translateY(-50%);
   color: var(--ink-mute);
   transition: 0.3s;
   pointer-events: none;
   font-size: 16px;
+  text-align: left;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 .input-group input:focus ~ label,
 .input-group input:valid ~ label,
@@ -1058,6 +1063,7 @@ p {
   appearance: none;
   cursor: pointer;
 }
+.select-group label { right: 44px; }
 .select-arrow {
   position: absolute;
   right: 20px;
@@ -1319,6 +1325,7 @@ p {
   .connector-dots .dot-3 { top: 100%; transform: translate(-50%, -100%); }
 
   .form-layout { grid-template-columns: 1fr; gap: 40px; text-align: center; }
+  .form-card, .form-card * { text-align: left; }
   .trust-strip.vertical { align-items: center; }
 
   .team-cta { margin-top: 56px; }
@@ -1380,8 +1387,9 @@ p {
   .trust-strip .dot-separator { display: none; }
   .trust-item { font-size: 15px; }
 
-  .testimonials-wrapper { flex-direction: column; align-items: center; gap: 28px; }
-  .rot-left, .rot-right { transform: none; }
+  .testimonials-wrapper { flex-direction: column; align-items: center; gap: 34px; }
+  .rot-left { transform: rotate(-2deg); }
+  .rot-right { transform: rotate(2deg); }
   .testimonial-video { max-width: 280px; }
 
   .section-team h2 { font-size: 30px; }
@@ -1406,7 +1414,10 @@ p {
   .footer-logo { margin-left: 0; }
   .social-icons { justify-content: center; }
 
-  .form-card { padding: 24px; }
+  .form-card { padding: 22px; }
+  .input-group label { font-size: 14px; left: 16px; }
+  .select-group label { right: 40px; }
+  .input-group input, .input-group select { padding: 22px 16px 10px; }
 
   .bg-light { border-radius: 22px; }
   .section-divider.dark-to-light::before,
