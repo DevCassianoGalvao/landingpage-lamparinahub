@@ -574,12 +574,12 @@ p {
   top: 22%;
   right: -150px;
 }
-/* bottom-left */
+/* lower-left — sits over the content, well inside the viewport so it never looks clipped */
 .hero::after {
-  width: 340px;
-  height: 340px;
-  bottom: -50px;
-  left: -70px;
+  width: 500px;
+  height: 500px;
+  bottom: -90px;
+  left: -40px;
   animation-delay: -4s;
 }
 @keyframes heroGlow {
@@ -1363,14 +1363,14 @@ p {
     margin-top: 16px;
   }
 
-  /* diagonal glows scaled for small screens */
+  /* diagonal glows scaled for small screens — raised so they don't wash over the founders' lower body */
   .hero::before {
-    width: 360px; height: 360px;
-    top: auto; bottom: 6%; right: -120px;
+    width: 340px; height: 340px;
+    top: auto; bottom: 30%; right: -110px;
   }
   .hero::after {
     width: 240px; height: 240px;
-    bottom: auto; top: 12%; left: -90px;
+    bottom: auto; top: 3%; left: -80px;
   }
 
   .hero-left h1,
