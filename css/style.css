@@ -164,7 +164,11 @@ p {
 
 /* Fixed section themes — no scroll-driven crossfade */
 .bg-dark { background-color: var(--bg); color: var(--text); }
-.bg-light { background-color: var(--paper); color: var(--ink); }
+.bg-light {
+  background-color: var(--paper);
+  color: var(--ink);
+  border-radius: 32px; /* light sections read as rounded panels rising from the dark */
+}
 
 /* Backgrounds Removed per user request */
 .grid-bg, .noise-bg {
@@ -333,6 +337,48 @@ p {
 @keyframes float {
   0%, 100% { transform: translateY(0); }
   50% { transform: translateY(6px); }
+}
+
+/* Dark <-> light seam accent: orange glow + gradient hairline */
+.section-divider.dark-to-light,
+.section-divider.light-to-dark {
+  display: block;
+  position: relative;
+  height: 0;
+  z-index: 6;
+  overflow: visible;
+  pointer-events: none;
+}
+.section-divider.dark-to-light::before,
+.section-divider.light-to-dark::before {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 0;
+  width: min(680px, 82vw);
+  height: 140px;
+  transform: translate(-50%, -50%);
+  background: radial-gradient(ellipse at center, rgba(255, 90, 0, 0.22), rgba(255, 90, 0, 0) 70%);
+}
+.section-divider.dark-to-light::after,
+.section-divider.light-to-dark::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 0;
+  width: min(460px, 62vw);
+  height: 2px;
+  transform: translate(-50%, -50%);
+  border-radius: 2px;
+  background: linear-gradient(
+    90deg,
+    rgba(255, 90, 0, 0) 0%,
+    rgba(255, 90, 0, 0.9) 25%,
+    var(--orange-hi) 50%,
+    rgba(255, 90, 0, 0.9) 75%,
+    rgba(255, 90, 0, 0) 100%
+  );
+  box-shadow: 0 0 12px rgba(255, 138, 0, 0.55);
 }
 
 /* Trust Strip */
@@ -1244,6 +1290,10 @@ p {
   .social-icons { justify-content: center; }
 
   .form-card { padding: 24px; }
+
+  .bg-light { border-radius: 22px; }
+  .section-divider.dark-to-light::before,
+  .section-divider.light-to-dark::before { height: 110px; }
 }
 
 @media (prefers-reduced-motion: reduce) {
