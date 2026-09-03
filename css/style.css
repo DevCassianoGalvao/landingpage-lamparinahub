@@ -349,6 +349,11 @@ p {
   overflow: visible;
   pointer-events: none;
 }
+/* keep the arrow circle only on the hero divider */
+.section-divider.dark-to-light .scroll-circle,
+.section-divider.light-to-dark .scroll-circle {
+  display: none;
+}
 .section-divider.dark-to-light::before,
 .section-divider.light-to-dark::before {
   content: "";
