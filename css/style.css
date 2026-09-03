@@ -554,24 +554,36 @@ p {
 .hero {
   padding-top: 100px;
   position: relative;
+  isolation: isolate; /* contain the glow layer, keep the dots texture on top */
 }
-/* diagonal orange corner glows, slow breathing */
+/* diagonal orange glows — above the content, below the dots texture */
 .hero::before,
 .hero::after {
   content: "";
   position: absolute;
-  width: 380px;
-  height: 380px;
   border-radius: 50%;
-  background: radial-gradient(circle at center, rgba(255, 90, 0, 0.4), rgba(255, 90, 0, 0) 70%);
+  background: radial-gradient(circle at center, rgba(255, 90, 0, 0.45), rgba(255, 90, 0, 0) 70%);
   pointer-events: none;
-  z-index: 0;
+  z-index: 50;
   animation: heroGlow 8s ease-in-out infinite;
 }
-.hero::before { top: -60px; right: -60px; }
-.hero::after { bottom: -60px; left: -60px; animation-delay: -4s; }
+/* right side — larger, glowing near the founders */
+.hero::before {
+  width: 580px;
+  height: 580px;
+  top: 22%;
+  right: -150px;
+}
+/* bottom-left */
+.hero::after {
+  width: 340px;
+  height: 340px;
+  bottom: -50px;
+  left: -70px;
+  animation-delay: -4s;
+}
 @keyframes heroGlow {
-  0%, 100% { opacity: 0.12; transform: scale(0.85); }
+  0%, 100% { opacity: 0.1; transform: scale(0.85); }
   50% { opacity: 0.55; transform: scale(1.1); }
 }
 #fluid-hero {
@@ -1344,11 +1356,21 @@ p {
   .hero-right::before { width: 440px; height: 440px; }
   .hero-right { margin-top: 8px; }
   .video-container {
-    max-width: 480px;
-    width: 112%;
-    transform: scale(1.26);
+    width: 100%;
+    max-width: 460px;
+    transform: scale(1.22);
     transform-origin: bottom center;
     margin-top: 16px;
+  }
+
+  /* diagonal glows scaled for small screens */
+  .hero::before {
+    width: 360px; height: 360px;
+    top: auto; bottom: 6%; right: -120px;
+  }
+  .hero::after {
+    width: 240px; height: 240px;
+    bottom: auto; top: 12%; left: -90px;
   }
 
   .hero-left h1,
