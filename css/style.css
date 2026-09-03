@@ -317,7 +317,7 @@ p {
   display: inline-flex;
   align-items: center;
   gap: 3px;
-  height: 18px;
+  height: 20px;
 }
 .sound-wave i {
   width: 3px;
@@ -325,9 +325,11 @@ p {
   border-radius: 2px;
   background: var(--orange);
   opacity: 0.5;
+  transition: height 0.06s linear;
 }
-.sound-toggle.playing .sound-wave i {
-  opacity: 1;
+.sound-toggle.playing .sound-wave i { opacity: 1; }
+/* fallback animation when live audio analysis isn't available */
+.sound-toggle.playing:not(.reactive) .sound-wave i {
   animation: soundBar 1s ease-in-out infinite;
 }
 .sound-wave i:nth-child(1) { animation-delay: -0.9s; }
@@ -335,14 +337,27 @@ p {
 .sound-wave i:nth-child(3) { animation-delay: -0.2s; }
 .sound-wave i:nth-child(4) { animation-delay: -0.75s; }
 .sound-wave i:nth-child(5) { animation-delay: -0.4s; }
+.sound-wave i:nth-child(6) { animation-delay: -0.65s; }
+.sound-wave i:nth-child(7) { animation-delay: -0.3s; }
 @keyframes soundBar {
   0%, 100% { height: 5px; }
-  50% { height: 18px; }
+  50% { height: 20px; }
 }
 .sound-label {
   font-size: 13px;
   font-weight: 500;
   white-space: nowrap;
+  overflow: hidden;
+  max-width: 220px;
+  opacity: 1;
+  transition: max-width 0.4s ease, opacity 0.25s ease;
+}
+.sound-toggle.playing .sound-label {
+  max-width: 0;
+  opacity: 0;
+}
+.sound-toggle.playing .sound-wave {
+  margin-right: -10px;
 }
 
 /* Kicker Pill */

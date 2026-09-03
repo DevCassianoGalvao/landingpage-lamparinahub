@@ -189,25 +189,69 @@ document.addEventListener("DOMContentLoaded", () => {
     input.addEventListener("change", updateInput);
   });
 
-  // 9. HERO AMBIENT SOUND TOGGLE
+  // 9. HERO AMBIENT SOUND TOGGLE + LIVE WAVEFORM
   const soundToggle = document.querySelector(".sound-toggle");
   const heroAudio = document.getElementById("hero-audio");
   if (soundToggle && heroAudio) {
     heroAudio.volume = 0.35;
+    const bars = Array.from(soundToggle.querySelectorAll(".sound-wave i"));
+    const levels = new Array(bars.length).fill(0);
+    let audioCtx, analyser, freqData, rafId;
+
     const setPlaying = (on) => {
       soundToggle.classList.toggle("playing", on);
       soundToggle.setAttribute("aria-pressed", String(on));
     };
+
+    function initAnalyser() {
+      if (analyser) return;
+      const Ctx = window.AudioContext || window.webkitAudioContext;
+      if (!Ctx) return;
+      try {
+        audioCtx = new Ctx();
+        const src = audioCtx.createMediaElementSource(heroAudio);
+        analyser = audioCtx.createAnalyser();
+        analyser.fftSize = 64;
+        analyser.smoothingTimeConstant = 0.75;
+        src.connect(analyser);
+        analyser.connect(audioCtx.destination);
+        freqData = new Uint8Array(analyser.frequencyBinCount);
+        soundToggle.classList.add("reactive");
+      } catch (e) {
+        analyser = null;
+      }
+    }
+
+    function draw() {
+      if (!analyser) return;
+      analyser.getByteFrequencyData(freqData);
+      const usable = Math.floor(freqData.length * 0.7);
+      for (let i = 0; i < bars.length; i++) {
+        const idx = Math.floor(((i + 0.5) / bars.length) * usable);
+        const target = freqData[idx] / 255;
+        levels[i] += (target - levels[i]) * 0.4;
+        bars[i].style.height = (3 + levels[i] * 17).toFixed(1) + "px";
+      }
+      rafId = requestAnimationFrame(draw);
+    }
+    function stopDraw() {
+      cancelAnimationFrame(rafId);
+      levels.fill(0);
+      bars.forEach((b) => { b.style.height = ""; });
+    }
+
     soundToggle.addEventListener("click", () => {
       if (heroAudio.paused) {
+        initAnalyser();
+        if (audioCtx && audioCtx.state === "suspended") audioCtx.resume();
         heroAudio.play().then(() => setPlaying(true)).catch(() => setPlaying(false));
       } else {
         heroAudio.pause();
         setPlaying(false);
       }
     });
-    heroAudio.addEventListener("pause", () => setPlaying(false));
-    heroAudio.addEventListener("play", () => setPlaying(true));
+    heroAudio.addEventListener("play", () => { setPlaying(true); if (analyser) draw(); });
+    heroAudio.addEventListener("pause", () => { setPlaying(false); stopDraw(); });
   }
 
 });
