@@ -554,41 +554,6 @@ p {
 .hero {
   padding-top: 100px;
   position: relative;
-  isolation: isolate; /* contain the glow layer, keep the dots texture on top */
-}
-/* diagonal orange glows — above the content, below the dots texture.
-   Kept fully inside the viewport so overflow-x:hidden never clips them into a hard edge. */
-.hero::before,
-.hero::after {
-  content: "";
-  position: absolute;
-  border-radius: 50%;
-  background: radial-gradient(circle at center,
-    rgba(255, 90, 0, 0.5) 0%,
-    rgba(255, 90, 0, 0.12) 42%,
-    rgba(255, 90, 0, 0) 70%);
-  pointer-events: none;
-  z-index: 50;
-  animation: heroGlow 8s ease-in-out infinite;
-}
-/* right side — larger, glowing near the founders */
-.hero::before {
-  width: 560px;
-  height: 560px;
-  top: 16%;
-  right: 1%;
-}
-/* lower-left — over the content */
-.hero::after {
-  width: 500px;
-  height: 500px;
-  bottom: -14%;
-  left: 1%;
-  animation-delay: -4s;
-}
-@keyframes heroGlow {
-  0%, 100% { opacity: 0.1; transform: scale(0.85); }
-  50% { opacity: 0.55; transform: scale(1.1); }
 }
 #fluid-hero {
   position: absolute;
@@ -652,10 +617,15 @@ p {
   position: absolute;
   top: 50%; left: 50%;
   transform: translate(-50%, -50%);
-  width: 1000px; height: 1000px;
-  background: radial-gradient(circle at center, rgba(255,90,0,0.15) 0%, transparent 60%);
+  width: 900px; height: 900px;
+  background: radial-gradient(circle at center, rgba(255, 90, 0, 0.22) 0%, transparent 62%);
   pointer-events: none;
   z-index: 0;
+  animation: heroPhotoGlow 7s ease-in-out infinite;
+}
+@keyframes heroPhotoGlow {
+  0%, 100% { opacity: 0.5; transform: translate(-50%, -50%) scale(0.9); }
+  50% { opacity: 1; transform: translate(-50%, -50%) scale(1.06); }
 }
 .video-container {
   width: 100%;
@@ -1357,7 +1327,7 @@ p {
 
   .section { padding: 56px 0; }
   .hero { padding-top: 80px; }
-  .hero-right::before { width: 440px; height: 440px; }
+  .hero-right::before { width: 520px; height: 520px; }
   .hero-right { margin-top: 8px; }
   .video-container {
     width: 100%;
@@ -1365,16 +1335,6 @@ p {
     transform: scale(1.22);
     transform-origin: bottom center;
     margin-top: 16px;
-  }
-
-  /* diagonal glows scaled for small screens — fully on-screen, raised off the founders' lower body */
-  .hero::before {
-    width: 320px; height: 320px;
-    top: auto; bottom: 30%; right: 0;
-  }
-  .hero::after {
-    width: 240px; height: 240px;
-    bottom: auto; top: 2%; left: 0;
   }
 
   .hero-left h1,
