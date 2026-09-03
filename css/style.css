@@ -101,7 +101,7 @@ button, select, input {
 /* ==========================================================================
    2. TYPOGRAPHY
    ========================================================================== */
-h1, h2, h3, .card-header, .layer-title, .wordmark-fade {
+h1, h2, h3, .card-header {
   font-family: var(--ff-title);
   font-weight: 700;
   letter-spacing: -0.025em;
@@ -180,11 +180,6 @@ p {
   background-color: var(--paper);
   color: var(--ink);
   border-radius: 32px; /* light sections read as rounded panels rising from the dark */
-}
-
-/* Backgrounds Removed per user request */
-.grid-bg, .noise-bg {
-  display: none !important;
 }
 
 /* Section Heights */
@@ -515,49 +510,6 @@ p {
   background-color: var(--stroke);
   border-radius: 50%;
 }
-.trust-strip.vertical {
-  flex-direction: column;
-  align-items: flex-start;
-  gap: 16px;
-}
-.trust-strip.vertical .trust-item {
-  font-size: 18px;
-}
-.trust-strip.vertical .trust-item svg {
-  width: 20px; height: 20px;
-}
-
-/* Play Button Custom */
-.vsl-play {
-  position: absolute;
-  top: 50%; left: 50%;
-  transform: translate(-50%, -50%);
-  width: 72px; height: 72px;
-  background: var(--orange);
-  border-radius: 50%;
-  display: flex; align-items: center; justify-content: center;
-  color: #fff;
-  cursor: pointer;
-  z-index: 2;
-}
-.vsl-play svg { width: 32px; height: 32px; margin-left: 4px; }
-.play-ring {
-  position: absolute;
-  inset: 0;
-  border-radius: 50%;
-  border: 1px solid var(--orange);
-  pointer-events: none;
-}
-.ring-1 { animation: ringPulse 2s infinite; }
-.ring-2 { animation: ringPulse 2s infinite 1s; }
-@keyframes ringPulse {
-  0% { transform: scale(1); opacity: 0.8; }
-  100% { transform: scale(1.6); opacity: 0; }
-}
-.vsl-play.small {
-  width: 48px; height: 48px;
-}
-.vsl-play.small svg { width: 24px; height: 24px; margin-left: 2px; }
 
 /* ==========================================================================
    5. SECTIONS
@@ -576,24 +528,6 @@ p {
   z-index: 0;
   display: block;
   pointer-events: none;
-}
-.hero-bg-video {
-  position: absolute;
-  inset: 0;
-  z-index: 0;
-  overflow: hidden;
-}
-.hero-bg-video video {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  opacity: 0.05; /* 5% bem suave */
-  transition: opacity 0.8s ease; /* para o crossfade do loop */
-}
-.hero-bg-overlay {
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(to bottom, transparent 40%, var(--bg) 100%);
 }
 .hero-container {
   display: grid;
@@ -661,21 +595,6 @@ p {
   position: relative;
   z-index: 2;
 }
-.image-placeholder-text {
-  color: var(--text-dim);
-  font-size: 14px;
-  text-align: center;
-  padding: 20px;
-  position: relative;
-  z-index: 2;
-}
-.video-glow {
-  position: absolute;
-  inset: 0;
-  background: radial-gradient(circle at 100% 100%, rgba(255,90,0,0.15) 0%, transparent 60%);
-  pointer-events: none;
-}
-
 /* Pain Section */
 .pain-grid {
   display: grid;
@@ -707,13 +626,6 @@ p {
 .pain-card .card-kicker {
   color: var(--orange);
   margin-bottom: 20px;
-}
-.layer-title {
-  font-size: 14px;
-  color: var(--orange);
-  text-transform: uppercase;
-  letter-spacing: 0.1em;
-  margin-bottom: 8px;
 }
 .pain-item {
   display: flex;
@@ -780,47 +692,6 @@ p {
   height: 100%;
   border: 0;
 }
-/* VSL */
-.section-vsl { padding-top: 0; }
-.vsl-container {
-  max-width: 900px;
-  margin: 0 auto;
-  aspect-ratio: 16/9;
-  background: var(--paper-card);
-  border: 1px solid var(--stroke-ink);
-  border-radius: 24px;
-  box-shadow: 0 20px 40px rgba(0,0,0,0.05);
-  position: relative;
-  overflow: hidden;
-  cursor: pointer;
-}
-.vsl-poster {
-  width: 100%; height: 100%;
-  object-fit: cover;
-  transition: transform 0.6s ease;
-  background: var(--bg-elev);
-}
-.vsl-container:hover .vsl-poster {
-  transform: scale(1.04);
-}
-.vsl-label {
-  position: absolute;
-  bottom: 20px; left: 50%;
-  transform: translateX(-50%);
-  background: rgba(0,0,0,0.6);
-  color: #fff;
-  padding: 4px 12px;
-  border-radius: 999px;
-  font-size: 12px;
-  pointer-events: none;
-}
-.vsl-container iframe {
-  position: absolute;
-  inset: 0;
-  width: 100%; height: 100%;
-  border: none;
-}
-
 /* Diagnostic */
 .cards-grid {
   display: grid;
@@ -1003,16 +874,6 @@ p {
   border-color: var(--orange);
   z-index: 2;
 }
-.video-placeholder {
-  position: absolute;
-  inset: 0;
-  display: flex; align-items: center; justify-content: center;
-  color: var(--text-dim);
-  font-size: 12px;
-  text-align: center;
-  padding: 20px;
-}
-
 /* Form */
 .form-layout {
   display: grid;
@@ -1203,29 +1064,6 @@ p {
   text-align: center;
   letter-spacing: 0.02em;
 }
-.footer-col {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-}
-.footer-link {
-  color: var(--text-mute);
-  font-size: 15px;
-  transition: color 0.3s;
-  position: relative;
-  width: fit-content;
-}
-.footer-link::after {
-  content: "";
-  position: absolute;
-  bottom: -2px; left: 0;
-  width: 0; height: 1px;
-  background: var(--orange);
-  transition: width 0.3s;
-}
-.footer-link:hover { color: #fff; }
-.footer-link:hover::after { width: 100%; }
-
 .social-icons {
   flex-direction: row;
   gap: 20px;
@@ -1357,7 +1195,6 @@ p {
 
   .form-layout { grid-template-columns: 1fr; gap: 40px; text-align: center; }
   .form-card, .form-card * { text-align: left; }
-  .trust-strip.vertical { align-items: center; }
 
   .team-cta { margin-top: 56px; }
 }
