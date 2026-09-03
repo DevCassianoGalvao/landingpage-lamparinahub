@@ -189,6 +189,52 @@ document.addEventListener("DOMContentLoaded", () => {
     input.addEventListener("change", updateInput);
   });
 
+  // 8b. FORM SUBMIT -> envia pro backend (enviar.php / Brevo)
+  //     Se o PHP estiver em outro domínio, troque a URL abaixo pela completa,
+  //     ex: "https://api.agencialamparina.com.br/enviar.php"
+  const FORM_ENDPOINT = "enviar.php";
+  const raioForm = document.getElementById("raio-x-form");
+  const formStatus = raioForm ? raioForm.querySelector(".form-status") : null;
+  if (raioForm) {
+    raioForm.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      if (!raioForm.checkValidity()) {
+        raioForm.reportValidity();
+        return;
+      }
+      const btn = raioForm.querySelector("button[type=submit]");
+      const btnText = btn.querySelector(".btn-text");
+      const originalText = btnText.textContent;
+      btn.disabled = true;
+      btnText.textContent = "Enviando...";
+      if (formStatus) { formStatus.textContent = ""; formStatus.className = "form-status"; }
+
+      try {
+        const res = await fetch(FORM_ENDPOINT, { method: "POST", body: new FormData(raioForm) });
+        let data = {};
+        try { data = await res.json(); } catch (_) {}
+        if (res.ok && data.ok) {
+          raioForm.reset();
+          raioForm.querySelectorAll(".input-group.has-value").forEach(g => g.classList.remove("has-value"));
+          if (formStatus) {
+            formStatus.textContent = "Recebemos seus dados. Em até 24h você recebe seu Raio-X no WhatsApp.";
+            formStatus.classList.add("is-ok");
+          }
+        } else {
+          throw new Error((data && data.error) || "Erro ao enviar.");
+        }
+      } catch (err) {
+        if (formStatus) {
+          formStatus.textContent = "Não deu pra enviar agora. Tente de novo ou fale com a gente no WhatsApp.";
+          formStatus.classList.add("is-error");
+        }
+      } finally {
+        btn.disabled = false;
+        btnText.textContent = originalText;
+      }
+    });
+  }
+
   // 9. HERO AMBIENT SOUND TOGGLE + LIVE WAVEFORM
   const soundToggle = document.querySelector(".sound-toggle");
   const heroAudio = document.getElementById("hero-audio");

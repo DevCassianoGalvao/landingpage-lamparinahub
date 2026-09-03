@@ -1074,6 +1074,24 @@ p {
   cursor: pointer;
 }
 .select-group label { right: 44px; }
+
+/* honeypot anti-spam — invisível para humanos */
+.hp-field {
+  position: absolute !important;
+  left: -9999px !important;
+  width: 1px;
+  height: 1px;
+  opacity: 0;
+  pointer-events: none;
+}
+.form-status {
+  margin: 14px 0 0;
+  font-size: 14px;
+  line-height: 1.5;
+  min-height: 1em;
+}
+.form-status.is-ok { color: #1a7f3c; }
+.form-status.is-error { color: #c0392b; }
 .select-arrow {
   position: absolute;
   right: 20px;

@@ -1,0 +1,6 @@
+# credenciais reais — nunca versionar (use config.example.php como base)
+config.php
+
+# sistema
+.DS_Store
+Thumbs.db
