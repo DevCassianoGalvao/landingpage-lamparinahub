@@ -273,15 +273,16 @@ p {
 .hero-cta-row {
   display: flex;
   flex-wrap: wrap;
-  align-items: center;
+  align-items: stretch;
   gap: 16px;
 }
 .sound-toggle {
   display: inline-flex;
   align-items: center;
   gap: 10px;
-  padding: 9px 16px 9px 9px;
-  border-radius: 999px;
+  min-height: 62px;
+  padding: 10px 20px 10px 12px;
+  border-radius: 12px;
   border: 1px solid var(--stroke);
   background: rgba(255, 90, 0, 0.08);
   color: var(--text-mute);
@@ -299,8 +300,8 @@ p {
   outline-offset: 3px;
 }
 .sound-play {
-  width: 28px;
-  height: 28px;
+  width: 34px;
+  height: 34px;
   flex-shrink: 0;
   border-radius: 50%;
   background: var(--orange);
@@ -309,7 +310,7 @@ p {
   align-items: center;
   justify-content: center;
 }
-.sound-play svg { width: 13px; height: 13px; display: block; }
+.sound-play svg { width: 15px; height: 15px; display: block; }
 .sound-toggle .ico-pause { display: none; }
 .sound-toggle.playing .ico-play { display: none; }
 .sound-toggle.playing .ico-pause { display: block; }
