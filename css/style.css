@@ -179,7 +179,7 @@ p {
 .hero { min-height: 820px; }
 .section-pain { min-height: 720px; }
 .section-truth { min-height: 520px; }
-.section-diagnostic { min-height: 720px; }
+.section-diagnostic { min-height: 720px; padding-top: 100px; padding-bottom: 100px; }
 .section-deliverables { min-height: 720px; }
 .section-social { min-height: 620px; }
 .section-form { min-height: 820px; }
