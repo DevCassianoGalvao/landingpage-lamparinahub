@@ -32,10 +32,21 @@
         <h1 class="split-text"><span class="typewriter-1"></span><span class="cursor cursor-1">|</span><br><span class="typewriter-2 highlight"></span><span class="cursor cursor-2 highlight" style="display:none;">|</span></h1>
         <p class="subtitle">A gente diagnostica onde o seu comercial trava nas áreas de aquisição, presença ou fechamento, e estrutura só o que falta pra sua empresa vender de forma previsível.</p>
         <p class="btn-prompt">Quer saber onde seu comercial trava?</p>
-        <a href="#formulario" class="btn-primary magnetic">
-          <span class="btn-text">Quero agora</span>
-          <span class="btn-glow"></span>
-        </a>
+        <div class="hero-cta-row">
+          <a href="#formulario" class="btn-primary magnetic">
+            <span class="btn-text">Quero agora</span>
+            <span class="btn-glow"></span>
+          </a>
+          <button class="sound-toggle" type="button" aria-pressed="false" aria-label="Tocar um som ambiente enquanto navega">
+            <span class="sound-play">
+              <svg class="ico-play" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+              <svg class="ico-pause" viewBox="0 0 24 24" fill="currentColor"><path d="M6 5h4v14H6zM14 5h4v14h-4z"/></svg>
+            </span>
+            <span class="sound-wave" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></span>
+            <span class="sound-label">Curte um som enquanto navega</span>
+          </button>
+        </div>
+        <audio id="hero-audio" src="assets/ambient.mp3" loop preload="none"></audio>
         <div class="trust-strip">
           <div class="trust-item">
             <svg viewBox="0 0 14 14" fill="none"><path d="M11.667 3.5L5.25 9.917 2.333 7" stroke="var(--orange)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>

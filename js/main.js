@@ -17,7 +17,7 @@ document.addEventListener("DOMContentLoaded", () => {
       
       // Initial state
       gsap.set([".logo", ".kicker-pill", ".hero-left p", ".trust-strip", ".hero-right"], { opacity: 0, y: 30 });
-      gsap.set(".hero-left .btn-primary", { opacity: 0 }); // Deixa o botão na posição final
+      gsap.set([".hero-left .btn-primary", ".sound-toggle"], { opacity: 0 }); // Deixa o botão na posição final
       
       function typeText(el, text, speed, onComplete) {
         let i = 0;
@@ -49,7 +49,7 @@ document.addEventListener("DOMContentLoaded", () => {
               gsap.to([".hero-left p", ".trust-strip"], {
                 opacity: 1, y: 0, duration: 0.8, ease: "power3.out", stagger: 0.15
               });
-              gsap.to(".hero-left .btn-primary", {
+              gsap.to([".hero-left .btn-primary", ".sound-toggle"], {
                 opacity: 1, duration: 0.8, ease: "power3.out", delay: 0.15
               });
             });
@@ -188,5 +188,26 @@ document.addEventListener("DOMContentLoaded", () => {
     };
     input.addEventListener("change", updateInput);
   });
+
+  // 9. HERO AMBIENT SOUND TOGGLE
+  const soundToggle = document.querySelector(".sound-toggle");
+  const heroAudio = document.getElementById("hero-audio");
+  if (soundToggle && heroAudio) {
+    heroAudio.volume = 0.35;
+    const setPlaying = (on) => {
+      soundToggle.classList.toggle("playing", on);
+      soundToggle.setAttribute("aria-pressed", String(on));
+    };
+    soundToggle.addEventListener("click", () => {
+      if (heroAudio.paused) {
+        heroAudio.play().then(() => setPlaying(true)).catch(() => setPlaying(false));
+      } else {
+        heroAudio.pause();
+        setPlaying(false);
+      }
+    });
+    heroAudio.addEventListener("pause", () => setPlaying(false));
+    heroAudio.addEventListener("play", () => setPlaying(true));
+  }
 
 });
