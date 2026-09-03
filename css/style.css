@@ -555,6 +555,25 @@ p {
   padding-top: 100px;
   position: relative;
 }
+/* diagonal orange corner glows, slow breathing */
+.hero::before,
+.hero::after {
+  content: "";
+  position: absolute;
+  width: 380px;
+  height: 380px;
+  border-radius: 50%;
+  background: radial-gradient(circle at center, rgba(255, 90, 0, 0.4), rgba(255, 90, 0, 0) 70%);
+  pointer-events: none;
+  z-index: 0;
+  animation: heroGlow 8s ease-in-out infinite;
+}
+.hero::before { top: -60px; right: -60px; }
+.hero::after { bottom: -60px; left: -60px; animation-delay: -4s; }
+@keyframes heroGlow {
+  0%, 100% { opacity: 0.12; transform: scale(0.85); }
+  50% { opacity: 0.55; transform: scale(1.1); }
+}
 #fluid-hero {
   position: absolute;
   inset: 0;
@@ -1322,17 +1341,44 @@ p {
 
   .section { padding: 56px 0; }
   .hero { padding-top: 80px; }
-  .hero-right::before { width: 400px; height: 400px; }
+  .hero-right::before { width: 440px; height: 440px; }
+  .hero-right { margin-top: 8px; }
   .video-container {
-    max-width: 380px;
-    transform: scale(1.14);
+    max-width: 480px;
+    width: 112%;
+    transform: scale(1.26);
     transform-origin: bottom center;
-    margin-top: 8px;
+    margin-top: 16px;
   }
 
   .hero-left h1,
   .hero-left .subtitle,
   .btn-prompt { text-align: center; }
+
+  /* keep CTA + sound player on one line */
+  .hero-cta-row {
+    flex-wrap: nowrap;
+    gap: 8px;
+    justify-content: center;
+    width: 100%;
+  }
+  .hero-cta-row .btn-primary {
+    padding: 14px 20px;
+    font-size: 14px;
+    flex-shrink: 0;
+  }
+  .sound-toggle {
+    min-height: 0;
+    padding: 6px 12px 6px 6px;
+    gap: 7px;
+    min-width: 0;
+  }
+  .sound-play { width: 26px; height: 26px; }
+  .sound-play svg { width: 12px; height: 12px; }
+  .sound-wave { gap: 2px; height: 16px; }
+  .sound-wave i:nth-child(n+6) { display: none; }
+  .sound-label { font-size: 11px; }
+  @keyframes soundBar { 0%, 100% { height: 4px; } 50% { height: 16px; } }
 
   /* trust strip: stacked, one check per line, no dot separators */
   .trust-strip {
