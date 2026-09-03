@@ -1,4 +1,8 @@
-# Repo servido direto de /raiox — bloqueia o que não deve ir pra web
+# Repo servido direto de /raiox
+
+DirectoryIndex index.html
+
+# bloqueia o que não deve ir pra web
 RedirectMatch 404 /\.git(/|$)
 
 <FilesMatch "^\.">
