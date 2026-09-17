@@ -12,8 +12,8 @@ document.addEventListener("DOMContentLoaded", () => {
     const c2 = document.querySelector(".cursor-2");
     
     if (tw1 && tw2) {
-      const text1 = "Não falta cliente.";
-      const text2 = "Falta processo.";
+      const text1 = "Descubra onde sua empresa";
+      const text2 = "perde oportunidades de venda.";
       
       // Initial state
       gsap.set([".logo", ".kicker-pill", ".hero-left p", ".trust-strip", ".hero-right"], { opacity: 0, y: 30 });
@@ -63,8 +63,8 @@ document.addEventListener("DOMContentLoaded", () => {
     const tw2 = document.querySelector(".typewriter-2");
     const c1 = document.querySelector(".cursor-1");
     const c2 = document.querySelector(".cursor-2");
-    if(tw1) tw1.textContent = "Não falta cliente.";
-    if(tw2) tw2.textContent = "Falta processo.";
+    if(tw1) tw1.textContent = "Descubra onde sua empresa";
+    if(tw2) tw2.textContent = "perde oportunidades de venda.";
     if(c1) c1.style.display = "none";
     if(c2) c2.style.display = "none";
   }

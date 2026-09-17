@@ -36,15 +36,14 @@ function limpar($v) {
 $nome         = limpar($_POST['nome']         ?? '');
 $whatsapp     = limpar($_POST['whatsapp']     ?? '');
 $empresa      = limpar($_POST['empresa']      ?? '');
+$dificuldade  = limpar($_POST['dificuldade']  ?? '');
 $faturamento  = limpar($_POST['faturamento']  ?? '');
-$investimento = limpar($_POST['investimento'] ?? '');
 
 $faltando = [];
 if ($nome === '')         $faltando[] = 'nome';
 if ($whatsapp === '')     $faltando[] = 'whatsapp';
 if ($empresa === '')      $faltando[] = 'empresa';
 if ($faturamento === '')  $faltando[] = 'faturamento';
-if ($investimento === '') $faltando[] = 'investimento';
 
 if ($faltando) {
     http_response_code(422);
@@ -60,14 +59,22 @@ $faixas = [
 ];
 $faturamentoLabel = $faixas[$faturamento] ?? $faturamento;
 
+$dificuldades = [
+    'atrair'    => 'Atrair clientes',
+    'presenca'  => 'Melhorar a presença da empresa',
+    'converter' => 'Converter contatos em vendas',
+    'nao_sei'   => 'Ainda não sei',
+];
+$dificuldadeLabel = $dificuldade !== '' ? ($dificuldades[$dificuldade] ?? $dificuldade) : '—';
+
 $dataHora = date('d/m/Y \à\s H:i');
 
 $linhas = [
-    ['Nome',               $nome],
-    ['WhatsApp',           $whatsapp],
-    ['Empresa',            $empresa],
-    ['Faturamento',        $faturamentoLabel],
-    ['Investimento atual', $investimento],
+    ['Nome',                 $nome],
+    ['WhatsApp',             $whatsapp],
+    ['Empresa',              $empresa],
+    ['Principal dificuldade', $dificuldadeLabel],
+    ['Faturamento',          $faturamentoLabel],
 ];
 
 $rows = '';
@@ -96,8 +103,8 @@ $texto =
     "Nome: {$nome}\n" .
     "WhatsApp: {$whatsapp}\n" .
     "Empresa: {$empresa}\n" .
-    "Faturamento: {$faturamentoLabel}\n" .
-    "Investimento atual: {$investimento}\n\n" .
+    "Principal dificuldade: {$dificuldadeLabel}\n" .
+    "Faturamento: {$faturamentoLabel}\n\n" .
     "Enviado em {$dataHora}";
 
 $payload = [

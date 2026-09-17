@@ -47,11 +47,10 @@
           <span>SESSÃO ESTRATÉGICA · LAMPARINA HUB</span>
         </div>
         <h1 class="split-text"><span class="typewriter-1"></span><span class="cursor cursor-1">|</span><br><span class="typewriter-2 highlight"></span><span class="cursor cursor-2 highlight" style="display:none;">|</span></h1>
-        <p class="subtitle">A gente diagnostica onde o seu comercial trava nas áreas de aquisição, presença ou fechamento, e estrutura só o que falta pra sua empresa vender de forma previsível.</p>
-        <p class="btn-prompt">Quer saber onde seu comercial trava?</p>
+        <p class="subtitle">Solicite uma Sessão Estratégica gratuita com a Lamparina. Vamos analisar como sua empresa atrai clientes, se apresenta e conduz o atendimento para identificar o que merece atenção primeiro.</p>
         <div class="hero-cta-row">
           <a href="#formulario" class="btn-primary magnetic">
-            <span class="btn-text">Quero agora</span>
+            <span class="btn-text">Quero minha sessão gratuita</span>
             <span class="btn-glow"></span>
           </a>
           <button class="sound-toggle" type="button" aria-pressed="false" aria-label="Tocar um som ambiente enquanto navega">
@@ -63,21 +62,22 @@
             <span class="sound-label">Curte um som</span>
           </button>
         </div>
+        <p class="btn-prompt">Após o cadastro, nossa equipe entra em contato pelo WhatsApp para combinar os próximos passos.</p>
         <audio id="hero-audio" src="assets/ambient.mp3" loop preload="none"></audio>
         <div class="trust-strip">
           <div class="trust-item">
             <svg viewBox="0 0 14 14" fill="none"><path d="M11.667 3.5L5.25 9.917 2.333 7" stroke="var(--orange)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-            Diagnóstico gratuito
+            Identificar o principal problema na aquisição, presença ou atendimento
           </div>
           <div class="dot-separator"></div>
           <div class="trust-item">
             <svg viewBox="0 0 14 14" fill="none"><path d="M11.667 3.5L5.25 9.917 2.333 7" stroke="var(--orange)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-            Resposta em até 24h
+            Definir qual ajuste deve ser priorizado
           </div>
           <div class="dot-separator"></div>
           <div class="trust-item">
             <svg viewBox="0 0 14 14" fill="none"><path d="M11.667 3.5L5.25 9.917 2.333 7" stroke="var(--orange)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-            Sem compromisso
+            Entender se a Lamparina pode ajudar na execução
           </div>
         </div>
       </div>
@@ -322,7 +322,7 @@
       <div class="form-layout">
         <div class="form-left">
           <h2>Descubra em que camada seu comercial trava</h2>
-          <p class="subtitle">Preencha agora e receba seu Raio-X gratuito em até 24h.</p>
+          <p class="subtitle">Cadastre-se para nossa equipe entrar em contato pelo WhatsApp e conversar sobre sua sessão gratuita.</p>
         </div>
         <div class="form-right">
           <div class="form-card">
@@ -334,11 +334,22 @@
               </div>
               <div class="input-group">
                 <input type="tel" id="whatsapp" name="whatsapp" required>
-                <label for="whatsapp">Seu WhatsApp</label>
+                <label for="whatsapp">Seu WhatsApp com DDD</label>
               </div>
               <div class="input-group">
                 <input type="text" id="empresa" name="empresa" required>
                 <label for="empresa">Nome da sua empresa</label>
+              </div>
+              <div class="input-group select-group">
+                <select id="dificuldade" name="dificuldade">
+                  <option value="" disabled selected></option>
+                  <option value="atrair">Atrair clientes</option>
+                  <option value="presenca">Melhorar a presença da empresa</option>
+                  <option value="converter">Converter contatos em vendas</option>
+                  <option value="nao_sei">Ainda não sei</option>
+                </select>
+                <label for="dificuldade">Principal dificuldade</label>
+                <svg class="select-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6" stroke-linecap="round" stroke-linejoin="round"/></svg>
               </div>
               <div class="input-group select-group">
                 <select id="faturamento" name="faturamento" required>
@@ -351,12 +362,8 @@
                 <label for="faturamento">Faturamento da empresa</label>
                 <svg class="select-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6" stroke-linecap="round" stroke-linejoin="round"/></svg>
               </div>
-              <div class="input-group">
-                <input type="text" id="investimento" name="investimento" required>
-                <label for="investimento">Investimento em marketing/vendas</label>
-              </div>
               <button type="submit" class="btn-primary full-width magnetic">
-                <span class="btn-text">Quero meu Raio-X gratuito</span>
+                <span class="btn-text">Solicitar minha sessão gratuita</span>
                 <span class="btn-glow"></span>
               </button>
               <p class="form-status" role="status" aria-live="polite"></p>
