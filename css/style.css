@@ -273,6 +273,7 @@ p {
   font-size: 15px;
   font-weight: 500;
   color: var(--text-mute);
+  margin-top: 20px;
   margin-bottom: 12px;
 }
 .bg-light .btn-prompt { color: var(--ink-mute); }
@@ -1177,6 +1178,7 @@ p {
   .deliverable-card.step-1 { order: 1; }
   .deliverable-card.step-2 { order: 2; }
   .deliverable-card.step-3 { order: 3; }
+  .deliverables-cta { margin-top: 88px; }
 
   /* simple centered vertical connector behind the stacked cards */
   .staircase-connector {
