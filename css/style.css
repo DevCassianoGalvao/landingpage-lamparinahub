@@ -535,6 +535,10 @@ p {
   transform: translate(-50%, -50%);
   border: 0;
 }
+.proof-card + .proof-card { margin-top: 72px; }
+.proof-card-reverse { flex-direction: row-reverse; }
+.proof-card-reverse .proof-video { transform: rotate(2deg); }
+.proof-card-reverse .proof-video:hover { transform: scale(1.02) rotate(0deg); }
 .proof-body { max-width: 440px; }
 .proof-body .card-kicker {
   color: var(--orange);
@@ -1014,12 +1018,14 @@ p {
     max-width: 420px;
   }
 
-  .proof-card {
+  .proof-card,
+  .proof-card-reverse {
     flex-direction: column;
     gap: 36px;
     margin-top: 40px;
     text-align: center;
   }
+  .proof-card + .proof-card { margin-top: 56px; }
   .proof-video { max-width: 260px; }
   .proof-body h3 { font-size: 30px; }
   .proof-body p { font-size: 17px; }
