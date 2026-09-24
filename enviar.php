@@ -86,7 +86,7 @@ if ($invalidos) {
 }
 
 $faturamentoLabel = $faixas[$faturamento];
-$dificuldadeLabel = $dificuldades[$dificuldade] ?? '—';
+$dificuldadeLabel = $dificuldades[$dificuldade] ?? 'Não informada';
 
 // (DD) NNNNN-NNNN
 $ddd  = substr($digitos, 0, 2);
@@ -153,7 +153,7 @@ $html =
     '</table></td></tr></table></body></html>';
 
 $texto =
-    "Novo lead do site Lamparina Hub - Sessão Estratégica\n\n" .
+    "Novo lead do site Lamparina Hub: Sessão Estratégica\n\n" .
     "Nome: {$nome}\n" .
     "WhatsApp: {$whatsappFmt} ({$whatsappLink})\n" .
     "Empresa: {$empresa}\n" .
@@ -170,7 +170,7 @@ $texto .= "\nEnviado em {$dataHora}";
 $payload = [
     'sender'      => ['name' => SENDER_NAME, 'email' => SENDER_EMAIL],
     'to'          => [['email' => RECIPIENT_EMAIL, 'name' => RECIPIENT_NAME]],
-    'subject'     => 'Novo lead do site — ' . $nome . ' (' . $empresa . ')',
+    'subject'     => 'Novo lead do site: ' . $nome . ' (' . $empresa . ')',
     'htmlContent' => $html,
     'textContent' => $texto,
 ];
