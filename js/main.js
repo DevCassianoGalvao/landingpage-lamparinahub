@@ -1,124 +1,42 @@
 document.addEventListener("DOMContentLoaded", () => {
-  gsap.registerPlugin(ScrollTrigger);
-
+  const T = window.lhTrack || { track() {}, getUTM: () => ({}), set() {}, get: () => null };
+  const hasGsap = typeof window.gsap !== "undefined" && typeof window.ScrollTrigger !== "undefined";
   const isTouch = window.matchMedia("(pointer: coarse)").matches;
   const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
-  // 0. HERO ANIMATIONS & TYPEWRITER
-  if (!prefersReducedMotion) {
-    const tw1 = document.querySelector(".typewriter-1");
-    const tw2 = document.querySelector(".typewriter-2");
-    const c1 = document.querySelector(".cursor-1");
-    const c2 = document.querySelector(".cursor-2");
-    
-    if (tw1 && tw2) {
-      const text1 = "Descubra onde sua empresa";
-      const text2 = "perde oportunidades de venda.";
-      
-      // Initial state
-      gsap.set([".logo", ".kicker-pill", ".hero-left p", ".trust-strip", ".hero-right"], { opacity: 0, y: 30 });
-      gsap.set([".hero-left .btn-primary", ".sound-toggle"], { opacity: 0 }); // Deixa o botão na posição final
-      
-      function typeText(el, text, speed, onComplete) {
-        let i = 0;
-        let interval = setInterval(() => {
-          el.innerHTML += text.charAt(i);
-          i++;
-          if (i >= text.length) {
-            clearInterval(interval);
-            if (onComplete) onComplete();
-          }
-        }, speed);
-      }
-      
-      setTimeout(() => {
-        // Fade in logo and kicker
-        gsap.to(".logo", { opacity: 1, y: 0, duration: 0.8, ease: "power3.out" });
-        gsap.to(".kicker-pill", { opacity: 1, y: 0, duration: 0.8, ease: "power3.out", delay: 0.1 });
-        
-        // Fade in hero image
-        gsap.to(".hero-right", { opacity: 1, y: 0, duration: 1.2, ease: "power3.out", delay: 0.3 });
-        
-        // Start typing
-        setTimeout(() => {
-          typeText(tw1, text1, 45, () => {
-            if (c1) c1.style.display = "none";
-            if (c2) c2.style.display = "inline-block";
-            typeText(tw2, text2, 45, () => {
-              // Fade in remaining elements
-              gsap.to([".hero-left p", ".trust-strip"], {
-                opacity: 1, y: 0, duration: 0.8, ease: "power3.out", stagger: 0.15
-              });
-              gsap.to([".hero-left .btn-primary", ".sound-toggle"], {
-                opacity: 1, duration: 0.8, ease: "power3.out", delay: 0.15
-              });
-            });
-          });
-        }, 600);
-      }, 100);
-    }
-  } else {
-    // Fallback if reduced motion is preferred
-    const tw1 = document.querySelector(".typewriter-1");
-    const tw2 = document.querySelector(".typewriter-2");
-    const c1 = document.querySelector(".cursor-1");
-    const c2 = document.querySelector(".cursor-2");
-    if(tw1) tw1.textContent = "Descubra onde sua empresa";
-    if(tw2) tw2.textContent = "perde oportunidades de venda.";
-    if(c1) c1.style.display = "none";
-    if(c2) c2.style.display = "none";
-  }
+  if (hasGsap) gsap.registerPlugin(ScrollTrigger);
 
-  // 1. (removed) scroll-driven theme crossfade — section themes are now fixed via CSS
-
-  // 2. ENTRANCE ANIMATIONS FOR CARDS
-  if (!prefersReducedMotion) {
+  // 1. ENTRANCE ANIMATIONS FOR CARDS (o conteúdo de texto da hero NÃO depende de animação)
+  if (hasGsap && !prefersReducedMotion) {
     gsap.from(".diagnostic-card", {
-      scrollTrigger: {
-        trigger: ".cards-grid",
-        start: "top 80%"
-      },
-      y: 40,
-      opacity: 0,
-      duration: 0.8,
-      stagger: 0.15,
-      ease: "power2.out"
+      scrollTrigger: { trigger: ".cards-grid", start: "top 85%" },
+      y: 40, opacity: 0, duration: 0.8, stagger: 0.15, ease: "power2.out"
     });
-
     gsap.from(".deliverable-card", {
-      scrollTrigger: {
-        trigger: ".staircase-grid",
-        start: "top 80%"
-      },
-      y: 40,
-      opacity: 0,
-      duration: 0.8,
-      stagger: 0.15,
-      ease: "power2.out"
+      scrollTrigger: { trigger: ".steps-grid", start: "top 85%" },
+      y: 40, opacity: 0, duration: 0.8, stagger: 0.15, ease: "power2.out"
     });
   }
 
-  // 3. READING PROGRESS BAR
-  gsap.to(".read-progress", {
-    width: "100%",
-    ease: "none",
-    scrollTrigger: {
-      trigger: "body",
-      start: "top top",
-      end: "bottom bottom",
-      scrub: 0.1
-    }
-  });
+  // 2. READING PROGRESS BAR
+  const progress = document.querySelector(".read-progress");
+  if (progress) {
+    const updateProgress = () => {
+      const max = document.documentElement.scrollHeight - window.innerHeight;
+      progress.style.width = (max > 0 ? Math.min(100, (window.scrollY / max) * 100) : 0) + "%";
+    };
+    window.addEventListener("scroll", updateProgress, { passive: true });
+    window.addEventListener("resize", updateProgress);
+    updateProgress();
+  }
 
-  // 4. BUTTON GLOW MAGNETIC HOVER
-  if (!isTouch) {
-    const magneticBtns = document.querySelectorAll(".magnetic");
-    magneticBtns.forEach(btn => {
+  // 3. BUTTON MAGNETIC HOVER
+  if (hasGsap && !isTouch) {
+    document.querySelectorAll(".magnetic").forEach((btn) => {
       btn.addEventListener("mousemove", (e) => {
         const rect = btn.getBoundingClientRect();
         const x = e.clientX - rect.left;
         const y = e.clientY - rect.top;
-        
         gsap.to(btn, {
           x: (x - rect.width / 2) * 0.2,
           y: (y - rect.height / 2) * 0.2,
@@ -127,177 +45,213 @@ document.addEventListener("DOMContentLoaded", () => {
         });
       });
       btn.addEventListener("mouseleave", () => {
-        gsap.to(btn, {
-          x: 0,
-          y: 0,
-          duration: 0.5,
-          ease: "elastic.out(1, 0.3)"
-        });
+        gsap.to(btn, { x: 0, y: 0, duration: 0.5, ease: "elastic.out(1, 0.3)" });
       });
     });
   }
 
-  // 5. DIAGNOSTIC SPOTLIGHT
-  const cards = document.querySelectorAll(".spotlight-card");
-  cards.forEach(card => {
+  // 4. CARD SPOTLIGHT
+  document.querySelectorAll(".spotlight-card").forEach((card) => {
     card.addEventListener("mousemove", (e) => {
       const rect = card.getBoundingClientRect();
-      const x = e.clientX - rect.left;
-      const y = e.clientY - rect.top;
-      card.style.setProperty("--mx", `${x}px`);
-      card.style.setProperty("--my", `${y}px`);
+      card.style.setProperty("--mx", `${e.clientX - rect.left}px`);
+      card.style.setProperty("--my", `${e.clientY - rect.top}px`);
     });
   });
 
-  // 6. SCROLL CIRCLE DOWN ACTION
-  const scrollCircles = document.querySelectorAll(".scroll-circle");
-  scrollCircles.forEach(btn => {
+  // 5. SCROLL CIRCLE (divisor da hero)
+  document.querySelectorAll(".scroll-circle").forEach((btn) => {
     btn.addEventListener("click", (e) => {
       e.preventDefault();
       const divider = btn.closest(".section-divider");
-      let nextTarget = divider ? divider.nextElementSibling : null;
-      if (nextTarget) {
-        nextTarget.scrollIntoView({ behavior: "smooth" });
-      }
+      const next = divider ? divider.nextElementSibling : null;
+      if (next) next.scrollIntoView({ behavior: "smooth" });
     });
   });
 
-  // 7. SHOW WHATSAPP FAB AFTER SCROLLING PAST HERO
-  const fab = document.querySelector(".whatsapp-fab");
-  if (fab) {
-    window.addEventListener("scroll", () => {
-      if (window.scrollY > 400) {
-        fab.classList.add("visible");
-      } else {
-        fab.classList.remove("visible");
-      }
+  // 6. VSL — o player só carrega depois do clique (poster leve, espaço reservado)
+  document.querySelectorAll(".vsl").forEach((box) => {
+    const facade = box.querySelector(".vsl-facade");
+    const id = box.dataset.videoId;
+    if (!facade || !id) return;
+    facade.addEventListener("click", () => {
+      const iframe = document.createElement("iframe");
+      iframe.src = `https://www.youtube-nocookie.com/embed/${encodeURIComponent(id)}?autoplay=1&rel=0&modestbranding=1&playsinline=1&iv_load_policy=3&color=white`;
+      iframe.title = "Vídeo: Entenda o que vamos analisar na sua sessão";
+      iframe.allow = "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share";
+      iframe.allowFullscreen = true;
+      iframe.frameBorder = "0";
+      box.replaceChild(iframe, facade);
+      T.track("vsl_play", { video_id: id });
     });
-  }
-
-  // 8. FORM LOGIC
-  const formInputs = document.querySelectorAll(".input-group input, .input-group select");
-  formInputs.forEach(input => {
-    const updateInput = () => {
-      if (input.tagName === "SELECT") {
-        if (input.value) {
-          input.parentElement.classList.add("has-value");
-        } else {
-          input.parentElement.classList.remove("has-value");
-        }
-      }
-    };
-    input.addEventListener("change", updateInput);
   });
 
-  // 8b. FORM SUBMIT -> envia pro backend (enviar.php / Brevo)
-  //     Se o PHP estiver em outro domínio, troque a URL abaixo pela completa,
-  //     ex: "https://api.agencialamparina.com.br/enviar.php"
+  // 7. RASTREAMENTO DE CLIQUES (posição do CTA / WhatsApp)
+  document.querySelectorAll("[data-cta]").forEach((el) => {
+    if (el.tagName === "BUTTON") return; // o botão de envio é medido no fluxo do formulário
+    el.addEventListener("click", () => T.track("cta_click", { position: el.dataset.cta }));
+  });
+  document.querySelectorAll("[data-wa]").forEach((el) => {
+    el.addEventListener("click", () => T.track("whatsapp_click", { position: el.dataset.wa }));
+  });
+
+  // 8. FORMULÁRIO
+  const form = document.getElementById("lead-form");
+  if (!form) return;
+
+  // Se o PHP estiver em outro domínio, troque pela URL completa,
+  // ex: "https://api.seudominio.com.br/enviar.php"
   const FORM_ENDPOINT = "enviar.php";
-  const raioForm = document.getElementById("raio-x-form");
-  const formStatus = raioForm ? raioForm.querySelector(".form-status") : null;
-  if (raioForm) {
-    raioForm.addEventListener("submit", async (e) => {
-      e.preventDefault();
-      if (!raioForm.checkValidity()) {
-        raioForm.reportValidity();
-        return;
-      }
-      const btn = raioForm.querySelector("button[type=submit]");
-      const btnText = btn.querySelector(".btn-text");
-      const originalText = btnText.textContent;
-      btn.disabled = true;
-      btnText.textContent = "Enviando...";
-      if (formStatus) { formStatus.textContent = ""; formStatus.className = "form-status"; }
 
-      try {
-        const res = await fetch(FORM_ENDPOINT, { method: "POST", body: new FormData(raioForm) });
-        let data = {};
-        try { data = await res.json(); } catch (_) {}
-        if (res.ok && data.ok) {
-          if (formStatus) {
-            formStatus.textContent = "Enviado! Redirecionando...";
-            formStatus.classList.add("is-ok");
-          }
-          window.location.href = "obrigado.html";
-          return;
-        } else {
-          throw new Error((data && data.error) || "Erro ao enviar.");
-        }
-      } catch (err) {
-        if (formStatus) {
-          formStatus.textContent = "Não deu pra enviar agora. Tente de novo ou fale com a gente no WhatsApp.";
-          formStatus.classList.add("is-error");
-        }
-      } finally {
-        btn.disabled = false;
-        btnText.textContent = originalText;
-      }
+  const statusEl = form.querySelector(".form-status");
+  const submitBtn = form.querySelector("button[type=submit]");
+  const btnText = submitBtn.querySelector(".btn-text");
+  const originalLabel = btnText.textContent;
+  let started = false;
+  let submitting = false;
+
+  const setStatus = (msg, kind) => {
+    statusEl.textContent = msg || "";
+    statusEl.className = "form-status" + (kind ? " is-" + kind : "");
+  };
+
+  // máscara do WhatsApp: (93) 99999-9999
+  const phone = form.querySelector("#whatsapp");
+  const maskPhone = (value) => {
+    let d = value.replace(/\D/g, "");
+    if (d.length > 11 && d.startsWith("55")) d = d.slice(2);
+    d = d.slice(0, 11);
+    if (!d.length) return "";
+    if (d.length <= 2) return "(" + d;
+    if (d.length <= 6) return "(" + d.slice(0, 2) + ") " + d.slice(2);
+    if (d.length <= 10) return "(" + d.slice(0, 2) + ") " + d.slice(2, 6) + "-" + d.slice(6);
+    return "(" + d.slice(0, 2) + ") " + d.slice(2, 7) + "-" + d.slice(7);
+  };
+  phone.addEventListener("input", () => { phone.value = maskPhone(phone.value); });
+
+  // selects: cor de placeholder enquanto nada foi escolhido
+  form.querySelectorAll("select").forEach((sel) => {
+    const sync = () => sel.classList.toggle("is-placeholder", !sel.value);
+    sel.addEventListener("change", sync);
+    sync();
+  });
+
+  // validação
+  const rules = {
+    nome: (v) => v.trim().length >= 2 || "Informe seu nome.",
+    whatsapp: (v) => {
+      const d = v.replace(/\D/g, "");
+      return d.length === 10 || d.length === 11 || "Informe um WhatsApp com DDD válido.";
+    },
+    empresa: (v) => v.trim().length >= 2 || "Informe o nome da empresa.",
+    faturamento: (v) => v !== "" || "Selecione o faturamento mensal aproximado."
+  };
+
+  const fieldOf = (name) => form.elements[name] && form.elements[name].closest(".field");
+  const showError = (name, msg) => {
+    const box = fieldOf(name);
+    if (!box) return;
+    box.classList.add("has-error");
+    box.querySelector(".error-msg").textContent = msg;
+    form.elements[name].setAttribute("aria-invalid", "true");
+  };
+  const clearError = (name) => {
+    const box = fieldOf(name);
+    if (!box) return;
+    box.classList.remove("has-error");
+    box.querySelector(".error-msg").textContent = "";
+    form.elements[name].removeAttribute("aria-invalid");
+  };
+
+  Object.keys(rules).forEach((name) => {
+    const el = form.elements[name];
+    const ev = el.tagName === "SELECT" ? "change" : "input";
+    el.addEventListener(ev, () => clearError(name));
+    el.addEventListener("blur", () => {
+      if (el.value === "") return; // não acusa erro em campo intocado (o envio valida tudo)
+      const r = rules[name](el.value);
+      if (r !== true) showError(name, r);
     });
-  }
+  });
 
-  // 9. HERO AMBIENT SOUND TOGGLE + LIVE WAVEFORM
-  const soundToggle = document.querySelector(".sound-toggle");
-  const heroAudio = document.getElementById("hero-audio");
-  if (soundToggle && heroAudio) {
-    heroAudio.volume = 0.35;
-    const bars = Array.from(soundToggle.querySelectorAll(".sound-wave i"));
-    const levels = new Array(bars.length).fill(0);
-    let audioCtx, analyser, freqData, rafId;
-
-    const setPlaying = (on) => {
-      soundToggle.classList.toggle("playing", on);
-      soundToggle.setAttribute("aria-pressed", String(on));
-    };
-
-    function initAnalyser() {
-      if (analyser) return;
-      const Ctx = window.AudioContext || window.webkitAudioContext;
-      if (!Ctx) return;
-      try {
-        audioCtx = new Ctx();
-        const src = audioCtx.createMediaElementSource(heroAudio);
-        analyser = audioCtx.createAnalyser();
-        analyser.fftSize = 64;
-        analyser.smoothingTimeConstant = 0.75;
-        src.connect(analyser);
-        analyser.connect(audioCtx.destination);
-        freqData = new Uint8Array(analyser.frequencyBinCount);
-        soundToggle.classList.add("reactive");
-      } catch (e) {
-        analyser = null;
-      }
-    }
-
-    function draw() {
-      if (!analyser) return;
-      analyser.getByteFrequencyData(freqData);
-      const usable = Math.floor(freqData.length * 0.7);
-      for (let i = 0; i < bars.length; i++) {
-        const idx = Math.floor(((i + 0.5) / bars.length) * usable);
-        const target = freqData[idx] / 255;
-        levels[i] += (target - levels[i]) * 0.4;
-        bars[i].style.height = (3 + levels[i] * 17).toFixed(1) + "px";
-      }
-      rafId = requestAnimationFrame(draw);
-    }
-    function stopDraw() {
-      cancelAnimationFrame(rafId);
-      levels.fill(0);
-      bars.forEach((b) => { b.style.height = ""; });
-    }
-
-    soundToggle.addEventListener("click", () => {
-      if (heroAudio.paused) {
-        initAnalyser();
-        if (audioCtx && audioCtx.state === "suspended") audioCtx.resume();
-        heroAudio.play().then(() => setPlaying(true)).catch(() => setPlaying(false));
+  const validate = () => {
+    const invalid = [];
+    Object.keys(rules).forEach((name) => {
+      const r = rules[name](form.elements[name].value);
+      if (r === true) {
+        clearError(name);
       } else {
-        heroAudio.pause();
-        setPlaying(false);
+        showError(name, r);
+        invalid.push(name);
       }
     });
-    heroAudio.addEventListener("play", () => { setPlaying(true); if (analyser) draw(); });
-    heroAudio.addEventListener("pause", () => { setPlaying(false); stopDraw(); });
-  }
+    return invalid;
+  };
 
+  form.addEventListener("focusin", () => {
+    if (started) return;
+    started = true;
+    T.track("form_start");
+  });
+
+  const uid = () => {
+    if (window.crypto && crypto.randomUUID) return crypto.randomUUID();
+    return "lead-" + Date.now() + "-" + Math.random().toString(36).slice(2, 10);
+  };
+
+  form.addEventListener("submit", async (e) => {
+    e.preventDefault();
+    if (submitting) return; // impede envio duplicado
+
+    const invalid = validate();
+    if (invalid.length) {
+      setStatus("Confira os campos destacados.", "error");
+      form.elements[invalid[0]].focus();
+      T.track("form_error", { type: "validation", fields: invalid.join(",") });
+      return;
+    }
+
+    submitting = true;
+    submitBtn.disabled = true;
+    btnText.textContent = "Enviando...";
+    setStatus("");
+
+    const eventId = uid();
+    const data = new FormData(form);
+    data.append("event_id", eventId);
+    data.append("referrer", document.referrer || "");
+    const utm = T.getUTM();
+    Object.keys(utm).forEach((k) => data.append(k, utm[k]));
+
+    try {
+      const res = await fetch(FORM_ENDPOINT, { method: "POST", body: data });
+      let out = {};
+      try { out = await res.json(); } catch (_) {}
+
+      if (res.ok && out.ok) {
+        // sucesso confirmado pelo servidor: marca o lead (o evento é disparado uma única vez na página de obrigado)
+        T.set("lh_lead", JSON.stringify({ id: eventId, ts: Date.now() }));
+        window.location.href = "obrigado.html";
+        return; // botão segue desabilitado durante o redirecionamento
+      }
+
+      // o servidor também valida: mostra o motivo nos campos que ele recusou
+      if (out && Array.isArray(out.campos)) {
+        out.campos.forEach((name) => {
+          if (rules[name]) showError(name, rules[name](""));
+        });
+      }
+      throw new Error((out && out.error) || "Erro ao enviar.");
+    } catch (err) {
+      setStatus("Não foi possível enviar sua solicitação. Seus dados continuam preenchidos: tente novamente ou fale com a equipe no WhatsApp.", "error");
+      T.track("form_error", { type: "submit" });
+      btnText.textContent = "Tentar novamente";
+      submitBtn.disabled = false;
+      submitting = false;
+    }
+  });
+  // (rótulo original só é restaurado se o usuário editar após um erro)
+  form.addEventListener("input", () => {
+    if (!submitting && btnText.textContent !== originalLabel) btnText.textContent = originalLabel;
+  });
 });

@@ -51,7 +51,7 @@ e um `vercel.json`. É mais chato e sensível a versão — me avise que eu conf
 ## 3. Testar
 
 1. Preencha o formulário no site e envie.
-2. Deve aparecer a mensagem verde *"Recebemos seus dados…"* e o e-mail cai em
+2. O navegador vai para `obrigado.html` ("Recebemos sua solicitação.") e o e-mail cai em
    `contatoagencialamparina@gmail.com` (confira também o spam nas primeiras vezes).
 3. Deu erro? O `enviar.php` responde um JSON com o motivo
    (`status` / `resposta` = resposta crua do Brevo). Causas comuns:
@@ -63,7 +63,10 @@ e um `vercel.json`. É mais chato e sensível a versão — me avise que eu conf
 
 ## 4. Campos que chegam no e-mail
 
-Nome · WhatsApp · Empresa · Faturamento (faixa por extenso) · Investimento atual · data/hora.
+Nome · WhatsApp (com link wa.me) · Empresa · Faturamento mensal (faixa por extenso) ·
+Principal dificuldade (opcional) · data/hora · **Origem do cadastro** (utm_source, utm_medium,
+utm_campaign, utm_content, utm_term, fbclid e página de referência, quando existirem).
 
-O campo escondido `website` é uma armadilha anti-robô (honeypot): se vier preenchido,
-o `enviar.php` responde "ok" mas **não** envia nada.
+O servidor valida os campos (WhatsApp precisa ter DDD + 8/9 dígitos) e ignora reenvios do
+mesmo cadastro (`event_id`). O campo escondido `website` é uma armadilha anti-robô (honeypot):
+se vier preenchido, o `enviar.php` responde "ok" mas **não** envia nada.

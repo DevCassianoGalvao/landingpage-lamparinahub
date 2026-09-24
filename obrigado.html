@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Obrigado · Lamparina Hub</title>
+  <title>Solicitação recebida · Lamparina Hub</title>
   <meta name="robots" content="noindex">
   <link rel="icon" type="image/png" href="assets/favicon.png">
 
@@ -19,7 +19,6 @@
   'https://connect.facebook.net/en_US/fbevents.js');
   fbq('init', '944327680552290');
   fbq('track', 'PageView');
-  fbq('track', 'Lead');
   </script>
   <noscript>
     <img height="1" width="1" style="display:none"
@@ -49,7 +48,7 @@
     .ty::before {
       content: "";
       position: absolute;
-      top: 38%;
+      top: 34%;
       left: 50%;
       width: 520px;
       height: 520px;
@@ -77,15 +76,15 @@
     .ty-logo {
       height: 44px;
       width: auto;
-      margin: 0 auto 40px;
+      margin: 0 auto 36px;
       display: block;
     }
 
     /* illustration */
     .ty-art {
-      width: 168px;
-      height: 168px;
-      margin: 0 auto 32px;
+      width: 156px;
+      height: 156px;
+      margin: 0 auto 28px;
       display: block;
     }
     .ty-art .ring {
@@ -130,21 +129,35 @@
       font-size: 40px;
       margin-bottom: 20px;
     }
-    .ty-inner h1 .highlight { color: var(--orange); }
     .ty-text {
       font-size: 18px;
       line-height: 1.6;
+      color: var(--text);
+      margin: 0 auto 20px;
+      max-width: 480px;
+    }
+    .ty-hint {
+      font-size: 16px;
+      line-height: 1.6;
       color: var(--text-mute);
-      margin: 0 auto 40px;
+      margin: 0 auto 36px;
       max-width: 460px;
+      padding: 16px 20px;
+      border: 1px solid var(--stroke);
+      border-left: 2px solid var(--orange);
+      border-radius: 12px;
+      background: rgba(255, 255, 255, 0.03);
+      text-align: left;
     }
 
     @media (max-width: 768px) {
-      .ty { padding: 64px 20px; }
+      .ty { padding: 56px 20px; }
       .ty-inner h1 { font-size: 30px; }
-      .ty-text { font-size: 16px; }
-      .ty-art { width: 140px; height: 140px; }
-      .ty::before { width: 380px; height: 380px; top: 34%; }
+      .ty-text { font-size: 17px; }
+      .ty-hint { font-size: 15px; }
+      .ty-art { width: 132px; height: 132px; }
+      .ty::before { width: 380px; height: 380px; top: 30%; }
+      .ty .btn-secondary { width: 100%; }
     }
 
     @media (prefers-reduced-motion: reduce) {
@@ -159,7 +172,7 @@
     <div class="ty-inner">
       <img src="assets/logo lamparina.png" alt="Lamparina Hub" class="ty-logo">
 
-      <svg class="ty-art" viewBox="0 0 180 180" role="img" aria-label="Aplicação recebida com sucesso">
+      <svg class="ty-art" viewBox="0 0 180 180" role="img" aria-label="Solicitação recebida">
         <defs>
           <linearGradient id="tygrad" x1="0" y1="0" x2="1" y2="1">
             <stop offset="0" stop-color="#FF8800"/>
@@ -175,15 +188,42 @@
         <path class="spark spark-3" d="M40 140 l2.5 6 6 2.5 -6 2.5 -2.5 6 -2.5 -6 -6 -2.5 6 -2.5 z"/>
       </svg>
 
-      <h1><span class="highlight">Sucesso!</span> Recebemos sua aplicação para a Sessão Estratégica.</h1>
-      <p class="ty-text">Nossa equipe analisará seus dados e entrará em contato via WhatsApp em breve ou ligação.</p>
+      <h1>Recebemos sua <span class="highlight">solicitação.</span></h1>
+      <p class="ty-text">Nossa equipe vai entrar em contato pelo WhatsApp informado para conversar sobre sua empresa e combinar os próximos passos. Seu horário ainda será agendado.</p>
+      <p class="ty-hint">Enquanto isso, pense em como os contatos chegam, quanto tempo levam para receber resposta e como as propostas são acompanhadas.</p>
 
-      <a href="index.html" class="btn-primary magnetic">
-        <span class="btn-text">Voltar ao início</span>
-        <span class="btn-glow"></span>
+      <a href="https://wa.me/5593984128030?text=Ol%C3%A1%2C%20enviei%20minha%20solicita%C3%A7%C3%A3o%20de%20sess%C3%A3o%20estrat%C3%A9gica%20pelo%20site." target="_blank" rel="noopener" class="btn-secondary" id="wa-thanks">
+        <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51a12.8 12.8 0 0 0-.57-.01c-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.82 9.82 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413z"/></svg>
+        <span>Falar com a equipe no WhatsApp</span>
       </a>
     </div>
   </main>
 
+  <script src="js/track.js"></script>
+  <script>
+    (function () {
+      var T = window.lhTrack;
+      if (!T) return;
+      T.track("thank_you_view");
+
+      // "Lead" só conta quando o cadastro foi aceito nesta sessão — abrir a URL direto
+      // ou atualizar esta página não gera um novo cadastro.
+      var raw = T.get("lh_lead");
+      if (raw) {
+        T.del("lh_lead");
+        try {
+          var lead = JSON.parse(raw);
+          var fresh = lead && lead.id && (Date.now() - lead.ts) < 30 * 60 * 1000;
+          if (fresh && typeof window.fbq === "function") {
+            window.fbq("track", "Lead", {}, { eventID: lead.id });
+            T.track("form_submit_success");
+          }
+        } catch (e) {}
+      }
+
+      var wa = document.getElementById("wa-thanks");
+      if (wa) wa.addEventListener("click", function () { T.track("whatsapp_click", { position: "obrigado" }); });
+    })();
+  </script>
 </body>
 </html>
