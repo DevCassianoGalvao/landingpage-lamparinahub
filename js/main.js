@@ -69,20 +69,20 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   });
 
-  // 6. VSL — o player só carrega depois do clique (poster leve, espaço reservado)
-  document.querySelectorAll(".vsl").forEach((box) => {
-    const facade = box.querySelector(".vsl-facade");
+  // 6. VÍDEOS (VSL e depoimentos): o player só carrega depois do clique (poster leve, espaço reservado)
+  document.querySelectorAll(".vsl, .proof-video").forEach((box) => {
+    const facade = box.querySelector(".vsl-facade, .proof-facade");
     const id = box.dataset.videoId;
     if (!facade || !id) return;
     facade.addEventListener("click", () => {
       const iframe = document.createElement("iframe");
       iframe.src = `https://www.youtube-nocookie.com/embed/${encodeURIComponent(id)}?autoplay=1&rel=0&modestbranding=1&playsinline=1&iv_load_policy=3&color=white`;
-      iframe.title = "Vídeo: Entenda o que vamos analisar na sua sessão";
+      iframe.title = box.dataset.title || "Vídeo: Entenda o que vamos analisar na sua sessão";
       iframe.allow = "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share";
       iframe.allowFullscreen = true;
       iframe.frameBorder = "0";
       box.replaceChild(iframe, facade);
-      T.track("vsl_play", { video_id: id });
+      T.track(box.classList.contains("vsl") ? "vsl_play" : "proof_play", { video_id: id });
     });
   });
 
