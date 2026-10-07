@@ -95,6 +95,16 @@ document.addEventListener("DOMContentLoaded", () => {
     el.addEventListener("click", () => T.track("whatsapp_click", { position: el.dataset.wa }));
   });
 
+  // 7b. SLIDER DE MARCAS: duplica os itens para o loop do marquee não ter emenda
+  document.querySelectorAll(".brands-track").forEach((track) => {
+    Array.from(track.children).forEach((li) => {
+      const clone = li.cloneNode(true);
+      clone.setAttribute("aria-hidden", "true");
+      clone.querySelector("img").alt = "";
+      track.appendChild(clone);
+    });
+  });
+
   // 8. FORMULÁRIO
   const form = document.getElementById("lead-form");
   if (!form) return;

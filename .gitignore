@@ -4,3 +4,7 @@ config.php
 # sistema
 .DS_Store
 Thumbs.db
+
+# originais dos logos (no site vão as versões .webp otimizadas)
+assets/marcas/*.PNG
+assets/marcas/*.jpeg
