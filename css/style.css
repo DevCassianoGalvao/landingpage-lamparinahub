@@ -478,6 +478,17 @@ p {
 }
 
 /* ---- Fundadores (foto, após a dúvida) ---- */
+.founders-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.4fr);
+  gap: 40px;
+  align-items: center;
+}
+.founders-title {
+  font-size: 40px;
+  line-height: 1.1;
+  margin: 0;
+}
 .founders-photo {
   display: flex;
   justify-content: center;
@@ -1075,6 +1086,8 @@ p {
   .hero-right .form-card { padding: 24px 20px; }
   .form-card-title { font-size: 22px; }
   .form-card-sub { font-size: 14px; margin-bottom: 20px; }
+  .founders-layout { grid-template-columns: minmax(0, 1fr); gap: 24px; text-align: center; }
+  .founders-title { font-size: 27px; }
   .founders-photo img { max-width: 460px; }
 
   .btn-primary {
