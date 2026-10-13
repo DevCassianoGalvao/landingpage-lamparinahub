@@ -181,7 +181,7 @@ $html =
     '<table role="presentation" width="560" cellpadding="0" cellspacing="0" style="max-width:560px;width:100%;background:#ffffff;border-radius:16px;overflow:hidden;box-shadow:0 2px 14px rgba(0,0,0,.07);">' .
     '<tr><td style="background:#0A0A0A;padding:28px 24px;">' .
     '<div style="color:#FF5A00;font-size:12px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;">Novo lead &middot; Sessão Estratégica</div>' .
-    '<div style="color:#ffffff;font-size:22px;font-weight:700;margin-top:6px;">Solicitação pelo site</div>' .
+    '<div style="color:#ffffff;font-size:22px;font-weight:700;margin-top:6px;">Solicitação pelo site' . ($qualificado ? '' : ' - ATENÇÃO AO LEAD') . '</div>' .
     '</td></tr>' .
     $blocoQualificacao .
     '<tr><td style="padding:8px 8px 0;"><table role="presentation" width="100%" cellpadding="0" cellspacing="0">' . $rows . '</table></td></tr>' .
@@ -191,7 +191,7 @@ $html =
 
 $texto =
     "Novo lead do site Lamparina Hub: Sessão Estratégica\n\n" .
-    ($qualificado ? '' : "LEAD DESQUALIFICADO (não disparou o Pixel). Motivo: " . implode(' · ', $motivos) . "\n\n") .
+    ($qualificado ? '' : "SOLICITAÇÃO PELO SITE - ATENÇÃO AO LEAD (lead desqualificado, não disparou o Pixel). Motivo: " . implode(' · ', $motivos) . "\n\n") .
     "Nome: {$nome}\n" .
     "Empresa: {$empresa}\n" .
     "WhatsApp: {$whatsappFmt} ({$whatsappLink})\n" .
@@ -212,7 +212,7 @@ $payload = [
     'sender'      => ['name' => SENDER_NAME, 'email' => SENDER_EMAIL],
     'to'          => [['email' => RECIPIENT_EMAIL, 'name' => RECIPIENT_NAME]],
     'replyTo'     => ['email' => $email, 'name' => $nome],
-    'subject'     => ($qualificado ? '' : '[DESQUALIFICADO] ') . 'Novo lead do site: ' . $nome . ' (' . $empresa . ')',
+    'subject'     => ($qualificado ? '' : '[ATENÇÃO AO LEAD - DESQUALIFICADO] ') . 'Novo lead do site: ' . $nome . ' (' . $empresa . ')',
     'htmlContent' => $html,
     'textContent' => $texto,
 ];

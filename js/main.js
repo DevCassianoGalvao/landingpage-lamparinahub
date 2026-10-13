@@ -128,8 +128,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   const steps = Array.from(form.querySelectorAll(".form-step"));
   const backBtn = form.querySelector(".step-back");
-  const stepNow = form.querySelector(".step-now");
-  const bar = form.querySelector(".form-progress-bar span");
+  const stepNav = form.querySelector(".form-progress");
   const statusEl = form.querySelector(".form-status");
   const submitBtn = form.querySelector("button[type=submit]");
   const btnText = submitBtn.querySelector(".btn-text");
@@ -146,9 +145,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const goTo = (i, focus) => {
     current = Math.max(0, Math.min(steps.length - 1, i));
     steps.forEach((st, n) => { st.hidden = n !== current; });
-    backBtn.hidden = current === 0;
-    stepNow.textContent = current + 1;
-    bar.style.width = ((current + 1) / steps.length) * 100 + "%";
+    stepNav.hidden = current === 0; // sem contador: a pessoa não vê quantas perguntas faltam
     if (focus) {
       const target = steps[current].querySelector("input:checked") || steps[current].querySelector("input");
       if (target) target.focus({ preventScroll: true });

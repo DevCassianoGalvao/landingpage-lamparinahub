@@ -30,7 +30,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Host+Grotesk:wght@400;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 
-  <link rel="stylesheet" href="css/style.css?v=20261013">
+  <link rel="stylesheet" href="css/style.css?v=20261013b">
 </head>
 <body class="theme-dark">
   <div class="read-progress"></div>
@@ -65,15 +65,11 @@
           <form id="lead-form" action="enviar.php" method="post" novalidate>
             <input type="text" name="website" class="hp-field" tabindex="-1" autocomplete="off" aria-hidden="true">
 
-            <div class="form-progress" aria-hidden="true">
-              <div class="form-progress-top">
-                <button type="button" class="step-back" hidden>
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 18l-6-6 6-6" stroke-linecap="round" stroke-linejoin="round"/></svg>
-                  Voltar
-                </button>
-                <span class="form-progress-label">Pergunta <b class="step-now">1</b> de 5</span>
-              </div>
-              <div class="form-progress-bar"><span></span></div>
+            <div class="form-progress" hidden>
+              <button type="button" class="step-back">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 18l-6-6 6-6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                Voltar
+              </button>
             </div>
 
             <fieldset class="form-step" data-step="1">
@@ -453,6 +449,6 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
   <script src="js/track.js?v=20260923"></script>
   <script src="js/fluid-hero.js?v=20260923"></script>
-  <script src="js/main.js?v=20261013b"></script>
+  <script src="js/main.js?v=20261013c"></script>
 </body>
 </html>

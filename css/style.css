@@ -971,20 +971,8 @@ p {
 }
 .step-error:not(:empty) { display: block; }
 
-.form-progress { margin-bottom: 22px; }
-.form-progress-top {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  min-height: 28px;
-  margin-bottom: 10px;
-}
-.form-progress-label {
-  margin-left: auto;
-  font-size: 13px;
-  color: var(--ink-mute);
-}
-.form-progress-label b { color: var(--ink); }
+.form-progress { margin-bottom: 14px; }
+.form-progress[hidden] { display: none; }
 .step-back {
   display: inline-flex;
   align-items: center;
@@ -1001,21 +989,6 @@ p {
 .step-back[hidden] { display: none; }
 .step-back svg { width: 18px; height: 18px; }
 .step-back:hover { color: var(--ink); }
-.form-progress-bar {
-  height: 4px;
-  border-radius: 4px;
-  background: rgba(10, 10, 10, 0.08);
-  overflow: hidden;
-}
-.form-progress-bar span {
-  display: block;
-  height: 100%;
-  width: 20%;
-  border-radius: inherit;
-  background: var(--orange);
-  transition: width 0.35s ease;
-}
-
 /* honeypot anti-spam — invisível para humanos */
 .hp-field {
   position: absolute !important;
