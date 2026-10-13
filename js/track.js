@@ -1,7 +1,7 @@
 /*
  * Rastreamento leve: UTMs + eventos personalizados do Meta Pixel.
  * Eventos: cta_click, form_start, form_error, form_submit_success,
- * thank_you_view, whatsapp_click, vsl_play. (PageView = lp_view, já disparado pelo Pixel.)
+ * thank_you_view, whatsapp_click, vsl_play, form_step, lead_desqualificado. (PageView = lp_view, já disparado pelo Pixel.)
  * Nenhum dado pessoal é enviado ao Pixel nem colocado em URL.
  */
 (function () {

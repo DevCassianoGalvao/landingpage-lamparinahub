@@ -297,7 +297,9 @@ document.addEventListener("DOMContentLoaded", () => {
           T.set("lh_lead", JSON.stringify({ id: eventId, ts: Date.now() }));
           window.location.href = PAGE_OK;
         } else {
-          window.location.href = PAGE_DESQUALIFICADO;
+          // evento só aqui na landing (que já tem Pixel); recebido.html segue sem Pixel nenhum
+          T.track("lead_desqualificado");
+          setTimeout(() => { window.location.href = PAGE_DESQUALIFICADO; }, 400); // dá tempo do evento sair
         }
         return; // botão segue desabilitado durante o redirecionamento
       }
