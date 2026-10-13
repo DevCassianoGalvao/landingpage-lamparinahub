@@ -105,7 +105,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   });
 
-  // 8. FORMULÁRIO
+  // 8. FORMULÁRIO (em etapas: uma pergunta por vez)
   const form = document.getElementById("lead-form");
   if (!form) return;
 
@@ -113,10 +113,28 @@ document.addEventListener("DOMContentLoaded", () => {
   // ex: "https://api.seudominio.com.br/enviar.php"
   const FORM_ENDPOINT = "enviar.php";
 
+  // Lead bom vai para obrigado.html (dispara o Lead do Pixel).
+  // Lead desqualificado vai para recebido.html (sem Pixel), para o Meta não aprender com ele.
+  const PAGE_OK = "obrigado.html";
+  const PAGE_DESQUALIFICADO = "recebido.html";
+  const DESQUALIFICA = {
+    papel: ["nao_faz_parte"],
+    faturamento: ["1"],
+    equipe: ["1"],
+    prazo: ["sem_disponibilidade"]
+  };
+  const isQualified = () =>
+    !Object.keys(DESQUALIFICA).some((name) => DESQUALIFICA[name].includes(form.elements[name].value));
+
+  const steps = Array.from(form.querySelectorAll(".form-step"));
+  const backBtn = form.querySelector(".step-back");
+  const stepNow = form.querySelector(".step-now");
+  const bar = form.querySelector(".form-progress-bar span");
   const statusEl = form.querySelector(".form-status");
   const submitBtn = form.querySelector("button[type=submit]");
   const btnText = submitBtn.querySelector(".btn-text");
   const originalLabel = btnText.textContent;
+  let current = 0;
   let started = false;
   let submitting = false;
 
@@ -124,6 +142,36 @@ document.addEventListener("DOMContentLoaded", () => {
     statusEl.textContent = msg || "";
     statusEl.className = "form-status" + (kind ? " is-" + kind : "");
   };
+
+  const goTo = (i, focus) => {
+    current = Math.max(0, Math.min(steps.length - 1, i));
+    steps.forEach((st, n) => { st.hidden = n !== current; });
+    backBtn.hidden = current === 0;
+    stepNow.textContent = current + 1;
+    bar.style.width = ((current + 1) / steps.length) * 100 + "%";
+    if (focus) {
+      const target = steps[current].querySelector("input:checked") || steps[current].querySelector("input");
+      if (target) target.focus({ preventScroll: true });
+    }
+    T.track("form_step", { step: current + 1 });
+  };
+
+  const stepError = (st, msg) => {
+    const el = st.querySelector(".step-error");
+    if (el) el.textContent = msg || "";
+  };
+
+  // escolher uma opção avança sozinho para a próxima pergunta
+  // (click, não change: ao voltar uma etapa, clicar na mesma opção também avança)
+  steps.forEach((st, i) => {
+    st.querySelectorAll("input[type=radio]").forEach((radio) => {
+      radio.addEventListener("click", () => {
+        stepError(st, "");
+        setTimeout(() => { if (current === i) goTo(i + 1, true); }, 220);
+      });
+    });
+  });
+  backBtn.addEventListener("click", () => goTo(current - 1, true));
 
   // máscara do WhatsApp: (93) 99999-9999
   const phone = form.querySelector("#whatsapp");
@@ -139,22 +187,15 @@ document.addEventListener("DOMContentLoaded", () => {
   };
   phone.addEventListener("input", () => { phone.value = maskPhone(phone.value); });
 
-  // selects: cor de placeholder enquanto nada foi escolhido
-  form.querySelectorAll("select").forEach((sel) => {
-    const sync = () => sel.classList.toggle("is-placeholder", !sel.value);
-    sel.addEventListener("change", sync);
-    sync();
-  });
-
-  // validação
+  // validação dos dados de contato (última etapa)
   const rules = {
     nome: (v) => v.trim().length >= 2 || "Informe seu nome.",
+    empresa: (v) => v.trim().length >= 2 || "Informe o nome da empresa.",
     whatsapp: (v) => {
       const d = v.replace(/\D/g, "");
       return d.length === 10 || d.length === 11 || "Informe um WhatsApp com DDD válido.";
     },
-    empresa: (v) => v.trim().length >= 2 || "Informe o nome da empresa.",
-    faturamento: (v) => v !== "" || "Selecione o faturamento mensal aproximado."
+    email: (v) => /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(v.trim()) || "Informe um e-mail válido."
   };
 
   const fieldOf = (name) => form.elements[name] && form.elements[name].closest(".field");
@@ -175,8 +216,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   Object.keys(rules).forEach((name) => {
     const el = form.elements[name];
-    const ev = el.tagName === "SELECT" ? "change" : "input";
-    el.addEventListener(ev, () => clearError(name));
+    el.addEventListener("input", () => clearError(name));
     el.addEventListener("blur", () => {
       if (el.value === "") return; // não acusa erro em campo intocado (o envio valida tudo)
       const r = rules[name](el.value);
@@ -213,6 +253,17 @@ document.addEventListener("DOMContentLoaded", () => {
     e.preventDefault();
     if (submitting) return; // impede envio duplicado
 
+    // Enter num campo antes da última etapa não envia
+    if (current !== steps.length - 1) return;
+
+    // alguma pergunta sem resposta: volta nela
+    const missing = steps.findIndex((st) => st.querySelector("input[type=radio]") && !st.querySelector("input:checked"));
+    if (missing !== -1) {
+      goTo(missing, true);
+      stepError(steps[missing], "Escolha uma opção para continuar.");
+      return;
+    }
+
     const invalid = validate();
     if (invalid.length) {
       setStatus("Confira os campos destacados.", "error");
@@ -239,9 +290,15 @@ document.addEventListener("DOMContentLoaded", () => {
       try { out = await res.json(); } catch (_) {}
 
       if (res.ok && out.ok) {
-        // sucesso confirmado pelo servidor: marca o lead (o evento é disparado uma única vez na página de obrigado)
-        T.set("lh_lead", JSON.stringify({ id: eventId, ts: Date.now() }));
-        window.location.href = "obrigado.html";
+        // o servidor decide a qualificação; o cálculo local é só reserva
+        const qualified = typeof out.qualificado === "boolean" ? out.qualificado : isQualified();
+        if (qualified) {
+          // marca o lead (o evento Lead é disparado uma única vez na página de obrigado)
+          T.set("lh_lead", JSON.stringify({ id: eventId, ts: Date.now() }));
+          window.location.href = PAGE_OK;
+        } else {
+          window.location.href = PAGE_DESQUALIFICADO;
+        }
         return; // botão segue desabilitado durante o redirecionamento
       }
 
@@ -250,6 +307,9 @@ document.addEventListener("DOMContentLoaded", () => {
         out.campos.forEach((name) => {
           if (rules[name]) showError(name, rules[name](""));
         });
+        const firstQ = steps.findIndex((st) =>
+          out.campos.some((n) => st.querySelector('input[type=radio][name="' + n + '"]')));
+        if (firstQ !== -1) goTo(firstQ, true);
       }
       throw new Error((out && out.error) || "Erro ao enviar.");
     } catch (err) {

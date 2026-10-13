@@ -38,14 +38,18 @@ function limpar($v, $max = 200) {
 $nome         = limpar($_POST['nome']         ?? '');
 $whatsapp     = limpar($_POST['whatsapp']     ?? '', 40);
 $empresa      = limpar($_POST['empresa']      ?? '');
+$email        = limpar($_POST['email']        ?? '', 150);
+$papel        = limpar($_POST['papel']        ?? '', 30);
 $faturamento  = limpar($_POST['faturamento']  ?? '', 10);
-$dificuldade  = limpar($_POST['dificuldade']  ?? '', 30);
+$equipe       = limpar($_POST['equipe']       ?? '', 10);
+$prazo        = limpar($_POST['prazo']        ?? '', 30);
 $eventId      = preg_replace('/[^a-zA-Z0-9_-]/', '', limpar($_POST['event_id'] ?? '', 64));
 
 // Evita duplo envio do mesmo cadastro (mesmo event_id) — melhor esforço.
 $marker = $eventId !== '' ? sys_get_temp_dir() . DIRECTORY_SEPARATOR . 'lh_lead_' . $eventId : '';
 if ($marker !== '' && file_exists($marker)) {
-    echo json_encode(['ok' => true]);
+    $anterior = @file_get_contents($marker);
+    echo json_encode(['ok' => true, 'qualificado' => $anterior !== '0']);
     exit;
 }
 
@@ -55,18 +59,33 @@ if (strlen($digitos) > 11 && substr($digitos, 0, 2) === '55') {
     $digitos = substr($digitos, 2);
 }
 
-$faixas = [
-    '1' => 'Abaixo de R$ 100 mil',
-    '2' => 'R$ 100 mil a menos de R$ 400 mil',
-    '3' => 'R$ 400 mil a R$ 1 milhão',
-    '4' => 'Acima de R$ 1 milhão',
+$papeis = [
+    'socio'         => 'Sou proprietário(a) ou sócio(a)',
+    'gestor'        => 'Sou gestor(a) e participo das decisões',
+    'responsavel'   => 'Sou responsável pela área, mas não decido',
+    'nao_faz_parte' => 'Não faço parte da empresa',
 ];
 
-$dificuldades = [
-    'aquisicao' => 'Aquisição',
-    'presenca'  => 'Presença',
-    'conversao' => 'Conversão no atendimento',
-    'nao_sei'   => 'Ainda não sei',
+$faixas = [
+    '1' => 'Abaixo de R$ 50 mil',
+    '2' => 'Entre R$ 50 mil e R$ 99 mil',
+    '3' => 'Entre R$ 100 mil e R$ 300 mil',
+    '4' => 'Entre R$ 300 mil e R$ 1 milhão',
+    '5' => 'Acima de R$ 1 milhão',
+];
+
+$equipes = [
+    '1' => 'Somente eu',
+    '2' => 'De 2 a 5 pessoas',
+    '3' => 'De 6 a 20 pessoas',
+    '4' => 'Mais de 20 pessoas',
+];
+
+$prazos = [
+    'prioridade'          => 'Sim, já é prioridade resolver isso',
+    'se_fizer_sentido'    => 'Sim, se a proposta fizer sentido',
+    'pesquisando'         => 'Ainda estamos apenas pesquisando',
+    'sem_disponibilidade' => 'Não temos disponibilidade agora',
 ];
 
 function tamanho($s) {
@@ -74,10 +93,14 @@ function tamanho($s) {
 }
 
 $invalidos = [];
-if (tamanho($nome) < 2)                          $invalidos[] = 'nome';
-if (!in_array(strlen($digitos), [10, 11], true)) $invalidos[] = 'whatsapp';
-if (tamanho($empresa) < 2)                       $invalidos[] = 'empresa';
+if (!isset($papeis[$papel]))                     $invalidos[] = 'papel';
 if (!isset($faixas[$faturamento]))               $invalidos[] = 'faturamento';
+if (!isset($equipes[$equipe]))                   $invalidos[] = 'equipe';
+if (!isset($prazos[$prazo]))                     $invalidos[] = 'prazo';
+if (tamanho($nome) < 2)                          $invalidos[] = 'nome';
+if (tamanho($empresa) < 2)                       $invalidos[] = 'empresa';
+if (!in_array(strlen($digitos), [10, 11], true)) $invalidos[] = 'whatsapp';
+if (!filter_var($email, FILTER_VALIDATE_EMAIL))  $invalidos[] = 'email';
 
 if ($invalidos) {
     http_response_code(422);
@@ -85,8 +108,13 @@ if ($invalidos) {
     exit;
 }
 
-$faturamentoLabel = $faixas[$faturamento];
-$dificuldadeLabel = $dificuldades[$dificuldade] ?? 'Não informada';
+// Lead desqualificado: qualquer uma destas respostas. Vai para recebido.html (sem Pixel).
+$motivos = [];
+if ($papel === 'nao_faz_parte')        $motivos[] = $papeis[$papel];
+if ($faturamento === '1')              $motivos[] = $faixas[$faturamento];
+if ($equipe === '1')                   $motivos[] = $equipes[$equipe];
+if ($prazo === 'sem_disponibilidade')  $motivos[] = $prazos[$prazo];
+$qualificado = !$motivos;
 
 // (DD) NNNNN-NNNN
 $ddd  = substr($digitos, 0, 2);
@@ -125,10 +153,18 @@ function linhaHtml($rotulo, $valorHtml) {
 }
 
 $rows  = linhaHtml('Nome', htmlspecialchars($nome));
-$rows .= linhaHtml('WhatsApp', '<a href="' . htmlspecialchars($whatsappLink) . '" style="color:#111;">' . htmlspecialchars($whatsappFmt) . '</a>');
 $rows .= linhaHtml('Empresa', htmlspecialchars($empresa));
-$rows .= linhaHtml('Faturamento mensal', htmlspecialchars($faturamentoLabel));
-$rows .= linhaHtml('Principal dificuldade', htmlspecialchars($dificuldadeLabel));
+$rows .= linhaHtml('WhatsApp', '<a href="' . htmlspecialchars($whatsappLink) . '" style="color:#111;">' . htmlspecialchars($whatsappFmt) . '</a>');
+$rows .= linhaHtml('E-mail', '<a href="mailto:' . htmlspecialchars($email) . '" style="color:#111;">' . htmlspecialchars($email) . '</a>');
+$rows .= linhaHtml('Papel na empresa', htmlspecialchars($papeis[$papel]));
+$rows .= linhaHtml('Faturamento mensal', htmlspecialchars($faixas[$faturamento]));
+$rows .= linhaHtml('Pessoas na empresa', htmlspecialchars($equipes[$equipe]));
+$rows .= linhaHtml('Implementar em 60 dias', htmlspecialchars($prazos[$prazo]));
+
+$blocoQualificacao = $qualificado
+    ? ''
+    : '<tr><td style="padding:16px 24px 0;"><div style="background:#fdecea;border:1px solid #f5c2bd;border-radius:10px;padding:12px 14px;color:#a12a1e;font-size:14px;line-height:1.5;">' .
+      '<strong>Lead desqualificado</strong> (não disparou o Pixel). Motivo: ' . htmlspecialchars(implode(' · ', $motivos)) . '</div></td></tr>';
 
 $rowsOrigem = '';
 foreach ($origem as $par) {
@@ -147,6 +183,7 @@ $html =
     '<div style="color:#FF5A00;font-size:12px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;">Novo lead &middot; Sessão Estratégica</div>' .
     '<div style="color:#ffffff;font-size:22px;font-weight:700;margin-top:6px;">Solicitação pelo site</div>' .
     '</td></tr>' .
+    $blocoQualificacao .
     '<tr><td style="padding:8px 8px 0;"><table role="presentation" width="100%" cellpadding="0" cellspacing="0">' . $rows . '</table></td></tr>' .
     $blocoOrigem .
     '<tr><td style="padding:18px 24px 28px;color:#9a9a9a;font-size:12px;">Enviado em ' . htmlspecialchars($dataHora) . ' pelo site Lamparina Hub.</td></tr>' .
@@ -154,11 +191,15 @@ $html =
 
 $texto =
     "Novo lead do site Lamparina Hub: Sessão Estratégica\n\n" .
+    ($qualificado ? '' : "LEAD DESQUALIFICADO (não disparou o Pixel). Motivo: " . implode(' · ', $motivos) . "\n\n") .
     "Nome: {$nome}\n" .
-    "WhatsApp: {$whatsappFmt} ({$whatsappLink})\n" .
     "Empresa: {$empresa}\n" .
-    "Faturamento mensal: {$faturamentoLabel}\n" .
-    "Principal dificuldade: {$dificuldadeLabel}\n";
+    "WhatsApp: {$whatsappFmt} ({$whatsappLink})\n" .
+    "E-mail: {$email}\n" .
+    "Papel na empresa: {$papeis[$papel]}\n" .
+    "Faturamento mensal: {$faixas[$faturamento]}\n" .
+    "Pessoas na empresa: {$equipes[$equipe]}\n" .
+    "Implementar em 60 dias: {$prazos[$prazo]}\n";
 if ($origem) {
     $texto .= "\nOrigem do cadastro:\n";
     foreach ($origem as $par) {
@@ -170,7 +211,8 @@ $texto .= "\nEnviado em {$dataHora}";
 $payload = [
     'sender'      => ['name' => SENDER_NAME, 'email' => SENDER_EMAIL],
     'to'          => [['email' => RECIPIENT_EMAIL, 'name' => RECIPIENT_NAME]],
-    'subject'     => 'Novo lead do site: ' . $nome . ' (' . $empresa . ')',
+    'replyTo'     => ['email' => $email, 'name' => $nome],
+    'subject'     => ($qualificado ? '' : '[DESQUALIFICADO] ') . 'Novo lead do site: ' . $nome . ' (' . $empresa . ')',
     'htmlContent' => $html,
     'textContent' => $texto,
 ];
@@ -207,7 +249,7 @@ if ($status < 200 || $status >= 300) {
 
 // Só confirma sucesso depois que o Brevo aceitou o envio.
 if ($marker !== '') {
-    @file_put_contents($marker, '1');
+    @file_put_contents($marker, $qualificado ? '1' : '0');
 }
 
-echo json_encode(['ok' => true]);
+echo json_encode(['ok' => true, 'qualificado' => $qualificado]);

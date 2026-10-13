@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Solicitação recebida · Lamparina Hub</title>
+  <meta name="robots" content="noindex">
+  <link rel="icon" type="image/png" href="assets/favicon.png">
+
+  <!-- Página do lead desqualificado: SEM Meta Pixel, de propósito (o Meta não deve aprender com este lead). -->
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Host+Grotesk:wght@400;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="css/style.css?v=20261013">
+
+  <style>
+    /* azul: identifica a página do lead desqualificado */
+    body { --orange: #2E7BFF; --orange-hi: #60A5FA; --stroke-hot: rgba(46, 123, 255, 0.4); }
+    .ty {
+      position: relative;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 80px 24px;
+      overflow: hidden;
+    }
+    /* pulsing orange glow behind the illustration */
+    .ty::before {
+      content: "";
+      position: absolute;
+      top: 34%;
+      left: 50%;
+      width: 520px;
+      height: 520px;
+      max-width: 90vw;
+      transform: translate(-50%, -50%);
+      border-radius: 50%;
+      background: radial-gradient(circle at center,
+        rgba(46, 123, 255, 0.28) 0%,
+        rgba(46, 123, 255, 0.1) 42%,
+        rgba(46, 123, 255, 0) 70%);
+      pointer-events: none;
+      animation: tyGlow 7s ease-in-out infinite;
+    }
+    @keyframes tyGlow {
+      0%, 100% { opacity: 0.5; transform: translate(-50%, -50%) scale(0.9); }
+      50% { opacity: 1; transform: translate(-50%, -50%) scale(1.06); }
+    }
+
+    .ty-inner {
+      position: relative;
+      z-index: 2;
+      max-width: 560px;
+      width: 100%;
+    }
+    .ty-logo {
+      height: 44px;
+      width: auto;
+      margin: 0 auto 36px;
+      display: block;
+    }
+
+    /* illustration */
+    .ty-art {
+      width: 156px;
+      height: 156px;
+      margin: 0 auto 28px;
+      display: block;
+    }
+    .ty-art .ring {
+      fill: none;
+      stroke: rgba(46, 123, 255, 0.35);
+      stroke-width: 2;
+      stroke-dasharray: 5 7;
+      transform-origin: 90px 90px;
+      animation: tySpin 22s linear infinite;
+    }
+    .ty-art .ring-2 {
+      stroke: rgba(96, 165, 250, 0.25);
+      animation-duration: 32s;
+      animation-direction: reverse;
+    }
+    @keyframes tySpin { to { transform: rotate(360deg); } }
+    .ty-art .disc { fill: url(#tygrad); }
+    .ty-art .check {
+      fill: none;
+      stroke: #fff;
+      stroke-width: 8;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      stroke-dasharray: 60;
+      stroke-dashoffset: 60;
+      animation: tyDraw 0.7s ease 0.25s forwards;
+    }
+    @keyframes tyDraw { to { stroke-dashoffset: 0; } }
+    .ty-art .spark {
+      fill: var(--orange-hi);
+      opacity: 0;
+      animation: tySpark 2.6s ease-in-out infinite;
+    }
+    .ty-art .spark-2 { animation-delay: 0.8s; }
+    .ty-art .spark-3 { animation-delay: 1.6s; }
+    @keyframes tySpark {
+      0%, 100% { opacity: 0; transform: scale(0.6); }
+      40% { opacity: 1; transform: scale(1); }
+    }
+
+    .ty-inner h1 {
+      font-size: 40px;
+      margin-bottom: 20px;
+    }
+    .ty-text {
+      font-size: 18px;
+      line-height: 1.6;
+      color: var(--text);
+      margin: 0 auto 20px;
+      max-width: 480px;
+    }
+    .ty-hint {
+      font-size: 16px;
+      line-height: 1.6;
+      color: var(--text-mute);
+      margin: 0 auto 36px;
+      max-width: 460px;
+      padding: 16px 20px;
+      border: 1px solid var(--stroke);
+      border-left: 2px solid var(--orange);
+      border-radius: 12px;
+      background: rgba(255, 255, 255, 0.03);
+      text-align: left;
+    }
+
+    @media (max-width: 768px) {
+      .ty { padding: 56px 20px; }
+      .ty-inner h1 { font-size: 30px; }
+      .ty-text { font-size: 17px; }
+      .ty-hint { font-size: 15px; }
+      .ty-art { width: 132px; height: 132px; }
+      .ty::before { width: 380px; height: 380px; top: 30%; }
+      .ty .btn-secondary { width: 100%; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .ty::before, .ty-art .ring, .ty-art .spark { animation: none; }
+      .ty-art .check { stroke-dashoffset: 0; animation: none; }
+    }
+  </style>
+</head>
+<body class="theme-dark">
+
+  <main class="ty">
+    <div class="ty-inner">
+      <img src="assets/logo lamparina.png" alt="Lamparina Hub" class="ty-logo">
+
+      <svg class="ty-art" viewBox="0 0 180 180" role="img" aria-label="Solicitação recebida">
+        <defs>
+          <linearGradient id="tygrad" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0" stop-color="#60A5FA"/>
+            <stop offset="1" stop-color="#2E7BFF"/>
+          </linearGradient>
+        </defs>
+        <circle class="ring" cx="90" cy="90" r="84"/>
+        <circle class="ring ring-2" cx="90" cy="90" r="68"/>
+        <circle class="disc" cx="90" cy="90" r="52"/>
+        <path class="check" d="M68 92 L84 108 L114 74"/>
+        <path class="spark spark-1" d="M150 46 l4 10 10 4 -10 4 -4 10 -4 -10 -10 -4 10 -4 z"/>
+        <path class="spark spark-2" d="M26 60 l3 7 7 3 -7 3 -3 7 -3 -7 -7 -3 7 -3 z"/>
+        <path class="spark spark-3" d="M40 140 l2.5 6 6 2.5 -6 2.5 -2.5 6 -2.5 -6 -6 -2.5 6 -2.5 z"/>
+      </svg>
+
+      <h1>Recebemos sua <span class="highlight">solicitação.</span></h1>
+      <p class="ty-text">Nossa equipe vai entrar em contato pelo WhatsApp informado para conversar sobre sua empresa e combinar os próximos passos. Seu horário ainda será agendado.</p>
+      <p class="ty-hint">Enquanto isso, pense em como os contatos chegam, quanto tempo levam para receber resposta e como as propostas são acompanhadas.</p>
+
+      <a href="https://wa.me/5593984128030?text=Ol%C3%A1%2C%20enviei%20minha%20solicita%C3%A7%C3%A3o%20de%20sess%C3%A3o%20estrat%C3%A9gica%20pelo%20site." target="_blank" rel="noopener" class="btn-secondary" >
+        <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51a12.8 12.8 0 0 0-.57-.01c-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.82 9.82 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413z"/></svg>
+        <span>Falar com a equipe no WhatsApp</span>
+      </a>
+    </div>
+  </main>
+
+</body>
+</html>
